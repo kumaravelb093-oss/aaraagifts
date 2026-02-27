@@ -32,7 +32,7 @@ export default function AboutPage() {
                     </div>
                     <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl group">
                         <img
-                            src="/assets/images/hero/luxury.jpg"
+                            src="/assets/images/hero/branded.jpg"
                             alt="The Aaraa Studio"
                             className="object-cover w-full h-full transition-transform duration-[3s] group-hover:scale-110"
                         />

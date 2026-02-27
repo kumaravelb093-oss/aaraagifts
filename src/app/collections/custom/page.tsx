@@ -29,7 +29,7 @@ export default function CustomHamperPage() {
                         Launch Hamper Builder
                     </button>
                 </div>
-                <div className="lg:w-1/2 relative bg-[url('/assets/images/hero/luxury.jpg')] bg-cover bg-center">
+                <div className="lg:w-1/2 relative bg-[url('/assets/images/hero/branded.jpg')] bg-cover bg-center">
                     {/* Removed darkening overlay for clarity */}
                 </div>
             </div>

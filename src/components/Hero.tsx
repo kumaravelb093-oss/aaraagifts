@@ -7,10 +7,10 @@ import Image from 'next/image';
 
 const slides = [
     {
-        title: "Luxury Gifting Elevated",
+        title: "Branded Gifting Elevated",
         subtitle: "Est. 2024 • Bespoke Selection",
         desc: "Exquisite gift boxes wrapped in handcrafted organic paper and rich linens. Each curation is a masterpiece of tactile satisfaction and artisanal precision.",
-        img: "/assets/images/hero/luxury.jpg",
+        img: "/assets/images/hero/branded.jpg",
         accent: "text-brand-maroon"
     },
     {

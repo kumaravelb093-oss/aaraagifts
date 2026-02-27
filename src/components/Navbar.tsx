@@ -58,7 +58,7 @@ const Navbar = () => {
         {
             name: "RETURN GIFTS",
             href: "/collections/wedding",
-            sublinks: ["Brass Artifacts", "Silver Platters", "Ethnic Hamper Sets", "Luxury Wedding Sweets"]
+            sublinks: ["Brass Artifacts", "Silver Platters", "Ethnic Hamper Sets", "Premium Wedding Sweets"]
         },
         {
             name: "MAKE YOUR OWN HAMPER",
@@ -69,6 +69,11 @@ const Navbar = () => {
             name: "CORPORATE STUDIO",
             href: "/corporate",
             sublinks: ["Gift Combos", "Handbook & Pen Sets", "Premium Pens", "Flasks & Bags"]
+        },
+        {
+            name: "BRANDED GIFT",
+            href: "/collections/branded",
+            sublinks: ["Executive Ensembles", "Artisan Chess Sets", "Beauty Stations", "Designer Satchels"]
         },
         { name: "OUR STORY", href: "/about" },
         { name: "CONTACT", href: "/contact" },
@@ -82,7 +87,7 @@ const Navbar = () => {
                     {[1, 2, 3, 4].map((i) => (
                         <span key={i} className="mx-8 text-[8px] font-bold uppercase tracking-[0.4em] flex items-center">
                             Curating Extraordinary Moments <span className="w-1 h-1 bg-brand-gold rounded-full ml-12" />
-                            Global Luxury Shipping Available <span className="w-1 h-1 bg-brand-gold rounded-full ml-12" />
+                            Global Premium Shipping Available <span className="w-1 h-1 bg-brand-gold rounded-full ml-12" />
                         </span>
                     ))}
                 </div>
@@ -116,7 +121,7 @@ const Navbar = () => {
                                 {logoError && (
                                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                                         <span className="text-xl font-serif font-bold tracking-widest leading-none text-white">AARAA</span>
-                                        <span className="text-[6px] uppercase tracking-[0.4em] font-bold text-brand-gold">Luxury Studio</span>
+                                        <span className="text-[6px] uppercase tracking-[0.4em] font-bold text-brand-gold">Aaraa Studio</span>
                                     </div>
                                 )}
                             </div>

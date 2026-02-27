@@ -11,50 +11,50 @@ export interface Product {
 
 export const allProducts: Product[] = [
     // Wedding Products
-    { 
-        id: "wed-1", 
-        title: "Peacock Kumkum Plate", 
+    {
+        id: "wed-1",
+        title: "Peacock Kumkum Plate",
         subtitle: "Meenakari Enamel Brass Plate",
         description: "A stunning meenakari peacock-themed brass plate featuring twin bowls for Haldi and Kumkum. Hand-painted with vibrant red and green enamel patterns, it adds a touch of royal heritage to any ceremony.",
-        img: "/assets/images/products/wedding/peacock-kumkum-plate.jpg", 
-        category: "Wedding Return Gifts", 
-        href: "/collections/wedding" 
+        img: "/assets/images/products/wedding/peacock-kumkum-plate.jpg",
+        category: "Wedding Return Gifts",
+        href: "/collections/wedding"
     },
-    { 
-        id: "wed-2", 
-        title: "Pichwai Brass Plates", 
+    {
+        id: "wed-2",
+        title: "Pichwai Brass Plates",
         subtitle: "Hand-painted Divine Artistry",
         description: "Exquisite brass plates featuring traditional Pichwai motifs of Kamdhenu cows and lotus blooms. Each plate is a vibrant piece of Indian folk art, perfect as a sacred keepsake for wedding guests.",
-        img: "/assets/images/products/wedding/pichwai-brass-plates.jpg", 
-        category: "Wedding Return Gifts", 
-        href: "/collections/wedding" 
+        img: "/assets/images/products/wedding/pichwai-brass-plates.jpg",
+        category: "Wedding Return Gifts",
+        href: "/collections/wedding"
     },
-    { 
-        id: "wed-3", 
-        title: "Bespoke Favor Box", 
+    {
+        id: "wed-3",
+        title: "Bespoke Favor Box",
         subtitle: "Personalized Wedding Stationary",
         description: "Elegant maroon-and-gold favor boxes adorned with intricate paisley prints and custom cartoon couple illustrations. A premium way to present sweets, dry fruits, or small tokens of gratitude.",
-        img: "/assets/images/products/wedding/wedding-favor-box.jpg", 
-        category: "Wedding Return Gifts", 
-        href: "/collections/wedding" 
+        img: "/assets/images/products/wedding/wedding-favor-box.jpg",
+        category: "Wedding Return Gifts",
+        href: "/collections/wedding"
     },
-    { 
-        id: "wed-4", 
-        title: "Hand-Painted Tiffins", 
+    {
+        id: "wed-4",
+        title: "Hand-Painted Tiffins",
         subtitle: "Artisan Enamelware Set",
         description: "Traditional stainless steel tiffins transformed into modern masterpieces with hand-painted floral patterns. A unique and functional return gift that combines utility with artisanal charm.",
-        img: "/assets/images/products/wedding/hand-painted-tiffin.jpg", 
-        category: "Wedding Return Gifts", 
-        href: "/collections/wedding" 
+        img: "/assets/images/products/wedding/hand-painted-tiffin.jpg",
+        category: "Wedding Return Gifts",
+        href: "/collections/wedding"
     },
-    { 
-        id: "wed-5", 
-        title: "Jute Hamper Bags", 
+    {
+        id: "wed-5",
+        title: "Jute Hamper Bags",
         subtitle: "Eco-Luxury Gift Totes",
         description: "Sustainable jute tote bags accented with delicate white lace and satin ribbons. These elegant hampers are spacious enough for assorted gifts and carry a message of mindful gifting.",
-        img: "/assets/images/products/wedding/jute-hamper-bags.jpg", 
-        category: "Wedding Return Gifts", 
-        href: "/collections/wedding" 
+        img: "/assets/images/products/wedding/jute-hamper-bags.jpg",
+        category: "Wedding Return Gifts",
+        href: "/collections/wedding"
     },
     { id: "wed-6", title: "Copper Hammered Tumblers", img: "/assets/images/categories/wedding.jpg", category: "Wedding Return Gifts", href: "/collections/wedding" },
 
@@ -343,5 +343,57 @@ export const allProducts: Product[] = [
         category: "Award Gifts",
         href: "/collections/awards",
         tag: "Sports Series"
+    },
+
+    // Branded Gift Products
+    {
+        id: "lux-1",
+        title: "The Executive Noir Ensemble",
+        subtitle: "Premium Men's Personal Suite",
+        description: "A masterfully curated collection for the modern gentleman. This all-black suite includes a precision chronograph watch, top-grain leather belt and wallet, designer fragrance, and handcrafted accessories, all presented in a forest-green luxury chest.",
+        img: "/assets/images/branded/mens-luxury-set.png",
+        category: "Branded Gift",
+        href: "/collections/branded",
+        tag: "Premium Edition"
+    },
+    {
+        id: "lux-2",
+        title: "The Roman Heritage Chess Suite",
+        subtitle: "Artisan Wood & Metal Grandmaster Set",
+        description: "A breathtaking display of strategic elegance. This handcrafted wooden board features intricate marquetry and a velvet-lined storage drawer, accompanied by heirloom-quality metallic Roman legionnaire chessmen in silver and gold finishes.",
+        img: "/assets/images/branded/roman-chess-set.jpg",
+        category: "Branded Gift",
+        href: "/collections/branded",
+        tag: "Artisan Masterpiece"
+    },
+    {
+        id: "lux-3",
+        title: "The Grand Muse Beauty Station",
+        subtitle: "Professional Three-Tier Vanity Trunk",
+        description: "The ultimate sanctuary for the beauty connoisseur. This rose-gold accented professional vanity trunk features three expansive tiers of organization, an integrated studio mirror, and dedicated sections for a complete artisanal collection.",
+        img: "/assets/images/branded/pro-makeup-vanity.png",
+        category: "Branded Gift",
+        href: "/collections/branded",
+        tag: "Professional Series"
+    },
+    {
+        id: "lux-4",
+        title: "The Artisan Winter Harmony Box",
+        subtitle: "Gourmet Celebration Hamper",
+        description: "A cozy celebration of refined tastes. This premium midnight-black gift box unveils a curated selection of artisanal conserves, a festive 'Happy Holidays' ceramic mug, handcrafted mouse figurine, and gourmet chocolates.",
+        img: "/assets/images/branded/holiday-gourmet-hamper.jpg",
+        category: "Branded Gift",
+        href: "/collections/branded",
+        tag: "Seasonal Luxury"
+    },
+    {
+        id: "lux-5",
+        title: "The Blossom Monogram Satchel",
+        subtitle: "Artisan Pink Coach Companion",
+        description: "A signature statement of grace and style. This exquisite pink monogram satchel features premium textured fabric, gold-tone hardware, and a bespoke pearl-and-bow charm, blending classical femininity with modern luxury.",
+        img: "/assets/images/branded/coach-pink-handbag.png",
+        category: "Branded Gift",
+        href: "/collections/branded",
+        tag: "Designer Series"
     },
 ];

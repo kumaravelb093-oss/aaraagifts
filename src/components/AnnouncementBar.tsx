@@ -6,7 +6,7 @@ const AnnouncementBar = () => {
     const messages = [
         "15% off on Signature Bestsellers",
         "24 - 48 hours delivery available",
-        "Luxury Packaging Included",
+        "Premium Packaging Included",
         "Worldwide Shipping Available"
     ];
 

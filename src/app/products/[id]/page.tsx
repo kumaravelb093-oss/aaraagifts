@@ -87,7 +87,7 @@ const ProductPage = () => {
 
                             <div className="absolute bottom-10 left-10">
                                 <span className="px-4 py-2 bg-brand-maroon text-white text-[9px] uppercase tracking-[0.3em] font-black rounded-full shadow-2xl">
-                                    {product.tag || 'Luxury Studio'}
+                                    {product.tag || 'Aaraa Studio'}
                                 </span>
                             </div>
                         </div>
@@ -118,7 +118,7 @@ const ProductPage = () => {
                                 </p>
                             )}
                             <p className="text-brand-espresso/40 text-base font-light leading-relaxed mb-10 max-w-xl">
-                                {product.description || "A testament to Aaraa's philosophy of purposeful gifting. This piece is meticulously crafted to bridge the gap between tradition and modern luxury, ensuring your gesture leaves a lasting impression on the soul."}
+                                {product.description || "A testament to Aaraa's philosophy of purposeful gifting. This piece is meticulously crafted to bridge the gap between tradition and modern branded gifting, ensuring your gesture leaves a lasting impression on the soul."}
                             </p>
                         </div>
 

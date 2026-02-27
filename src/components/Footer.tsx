@@ -19,7 +19,7 @@ const Footer = () => {
                                     className="object-contain h-full w-full"
                                 />
                             </Link>
-                            <span className="text-brand-copper italic text-[10px] tracking-[0.4em] uppercase font-sans font-bold">Luxury Studio</span>
+                            <span className="text-brand-copper italic text-[10px] tracking-[0.4em] uppercase font-sans font-bold">Aaraa Studio</span>
                         </div>
                         <p className="text-white/30 mb-5 leading-relaxed text-xs font-light">
                             Crafting the world's most beautiful gifting moments through meticulous curation and artisanal craftsmanship.

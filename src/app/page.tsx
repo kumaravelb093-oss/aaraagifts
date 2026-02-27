@@ -7,6 +7,7 @@ import ContactSection from "@/components/ContactSection";
 import ProcessSection from "@/components/ProcessSection";
 import CorporateSection from "@/components/CorporateSection";
 import InstagramSection from "@/components/InstagramSection";
+import BrandedSection from "@/components/BrandedSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import TechnicalDetails from "@/components/TechnicalDetails";
@@ -23,6 +24,7 @@ export default function Home() {
       <ProcessSection />
       <TechnicalDetails />
       <CorporateSection />
+      <BrandedSection />
       <CollectionShowcase />
       <TrustSections />
       <InstagramSection />

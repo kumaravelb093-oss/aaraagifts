@@ -16,7 +16,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Aaraa Gifts | Premium Gift Store & Custom Gifting Studio",
-  description: "Bespoke gift collections and premium custom gifting solutions curated with elegance. Discover luxury gifting for corporate and personal occasions.",
+  description: "Bespoke gift collections and premium custom gifting solutions curated with elegance. Discover premium branded gifting for corporate and personal occasions.",
 };
 
 export default function RootLayout({

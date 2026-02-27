@@ -16,7 +16,7 @@ export const allProducts: Product[] = [
         title: "Peacock Kumkum Plate",
         subtitle: "Meenakari Enamel Brass Plate",
         description: "A stunning meenakari peacock-themed brass plate featuring twin bowls for Haldi and Kumkum. Hand-painted with vibrant red and green enamel patterns, it adds a touch of royal heritage to any ceremony.",
-        img: "/assets/images/products/wedding/peacock-kumkum-plate.jpg",
+        img: "/assets/images/return_gift/peacock-kumkum-plate.png",
         category: "Wedding Return Gifts",
         href: "/collections/wedding"
     },
@@ -25,7 +25,7 @@ export const allProducts: Product[] = [
         title: "Pichwai Brass Plates",
         subtitle: "Hand-painted Divine Artistry",
         description: "Exquisite brass plates featuring traditional Pichwai motifs of Kamdhenu cows and lotus blooms. Each plate is a vibrant piece of Indian folk art, perfect as a sacred keepsake for wedding guests.",
-        img: "/assets/images/products/wedding/pichwai-brass-plates.jpg",
+        img: "/assets/images/return_gift/pichwai-brass-plates.jpg",
         category: "Wedding Return Gifts",
         href: "/collections/wedding"
     },
@@ -34,7 +34,7 @@ export const allProducts: Product[] = [
         title: "Bespoke Favor Box",
         subtitle: "Personalized Wedding Stationary",
         description: "Elegant maroon-and-gold favor boxes adorned with intricate paisley prints and custom cartoon couple illustrations. A premium way to present sweets, dry fruits, or small tokens of gratitude.",
-        img: "/assets/images/products/wedding/wedding-favor-box.jpg",
+        img: "/assets/images/return_gift/wedding-favor-box.jpg",
         category: "Wedding Return Gifts",
         href: "/collections/wedding"
     },
@@ -43,7 +43,7 @@ export const allProducts: Product[] = [
         title: "Hand-Painted Tiffins",
         subtitle: "Artisan Enamelware Set",
         description: "Traditional stainless steel tiffins transformed into modern masterpieces with hand-painted floral patterns. A unique and functional return gift that combines utility with artisanal charm.",
-        img: "/assets/images/products/wedding/hand-painted-tiffin.jpg",
+        img: "/assets/images/return_gift/hand-painted-tiffin-set.jpg",
         category: "Wedding Return Gifts",
         href: "/collections/wedding"
     },
@@ -52,7 +52,7 @@ export const allProducts: Product[] = [
         title: "Jute Hamper Bags",
         subtitle: "Eco-Luxury Gift Totes",
         description: "Sustainable jute tote bags accented with delicate white lace and satin ribbons. These elegant hampers are spacious enough for assorted gifts and carry a message of mindful gifting.",
-        img: "/assets/images/products/wedding/jute-hamper-bags.jpg",
+        img: "/assets/images/return_gift/jute-hamper-bags.jpg",
         category: "Wedding Return Gifts",
         href: "/collections/wedding"
     },

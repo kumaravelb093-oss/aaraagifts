@@ -10,11 +10,11 @@ import { ShoppingBag, ChevronRight, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 const weddingProducts = [
-    { id: "wed-1", title: "Peacock Kumkum Plate", img: "/assets/images/products/wedding/peacock-kumkum-plate.jpg" },
-    { id: "wed-2", title: "Pichwai Brass Plates", img: "/assets/images/products/wedding/pichwai-brass-plates.jpg" },
-    { id: "wed-3", title: "Bespoke Favor Box", img: "/assets/images/products/wedding/wedding-favor-box.jpg" },
-    { id: "wed-4", title: "Hand-Painted Tiffins", img: "/assets/images/products/wedding/hand-painted-tiffin.jpg" },
-    { id: "wed-5", title: "Jute Hamper Bags", img: "/assets/images/products/wedding/jute-hamper-bags.jpg" },
+    { id: "wed-1", title: "Peacock Kumkum Plate", img: "/assets/images/return_gift/peacock-kumkum-plate.png" },
+    { id: "wed-2", title: "Pichwai Brass Plates", img: "/assets/images/return_gift/pichwai-brass-plates.jpg" },
+    { id: "wed-3", title: "Bespoke Favor Box", img: "/assets/images/return_gift/wedding-favor-box.jpg" },
+    { id: "wed-4", title: "Hand-Painted Tiffins", img: "/assets/images/return_gift/hand-painted-tiffin-set.jpg" },
+    { id: "wed-5", title: "Jute Hamper Bags", img: "/assets/images/return_gift/jute-hamper-bags.jpg" },
     { id: "wed-6", title: "Copper Hammered Tumblers", img: "/assets/images/categories/wedding.jpg" },
 ];
 

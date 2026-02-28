@@ -297,6 +297,57 @@ export const allProducts: Product[] = [
         tag: "Minimalist"
     },
 
+    {
+        id: "app-9",
+        title: "The Spectrum Polo Bundle",
+        subtitle: "Multi-Color Corporate Collection",
+        description: "A vibrant 5-piece polo set in sky blue, tangerine orange, deep maroon, classic black, and royal blue. Crafted from breathable piqué cotton, ideal for team branding and corporate events.",
+        img: "/assets/images/apparel/assorted-polo-shirts-bundle.jpg",
+        category: "Apparel & T-Shirts",
+        href: "/collections/apparel",
+        tag: "Bulk Ready"
+    },
+    {
+        id: "app-10",
+        title: "The CoolMars Midnight Polo",
+        subtitle: "Premium Navy Piqué Shirt",
+        description: "A deep navy CoolMars-branded polo shirt with a refined piqué weave and triple-button placket. The rich midnight hue and tailored fit make it perfect for casual Fridays and corporate outings.",
+        img: "/assets/images/apparel/coolmars-black-polo-shirt.jpg",
+        category: "Apparel & T-Shirts",
+        href: "/collections/apparel",
+        tag: "Premium Brand"
+    },
+    {
+        id: "app-11",
+        title: "The Classic Polo Collection",
+        subtitle: "Six-Shade Essential Range",
+        description: "A comprehensive 6-shade polo collection featuring sky blue, navy, silver grey, jet black, deep maroon, and electric royal blue. Premium cotton piqué fabric covers every institutional color requirement.",
+        img: "/assets/images/apparel/classic-polo-collection.jpg",
+        category: "Apparel & T-Shirts",
+        href: "/collections/apparel",
+        tag: "Institutional"
+    },
+    {
+        id: "app-12",
+        title: "The Premium Polo Assorted Pack",
+        subtitle: "Six-Color Corporate Range",
+        description: "An expertly curated assortment of six premium polo shirts in a harmonious palette. From cool blues to warm maroons, each shirt features a classic collar, reinforced stitching, and comfortable regular fit.",
+        img: "/assets/images/apparel/premium-polo-assorted-pack.jpg",
+        category: "Apparel & T-Shirts",
+        href: "/collections/apparel",
+        tag: "Best Seller"
+    },
+    {
+        id: "app-13",
+        title: "The Vibrant Orange Polo",
+        subtitle: "Bold Statement Piqué Shirt",
+        description: "A striking vibrant orange polo shirt that commands attention. Crafted from soft honeycomb piqué fabric with a classic collar and three-button placket, perfect for high-visibility events and energetic team uniforms.",
+        img: "/assets/images/apparel/vibrant-orange-polo-shirt.jpg",
+        category: "Apparel & T-Shirts",
+        href: "/collections/apparel",
+        tag: "Statement Piece"
+    },
+
     // Award Gifts
     {
         id: "award-1",

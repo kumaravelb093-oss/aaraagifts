@@ -8,13 +8,40 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShoppingBag, ChevronRight, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import { allProducts } from '@/data/products';
+import { allProducts, Product } from '@/data/products';
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 
 export default function AwardPage() {
     const { addToCart } = useCart();
     const [addedId, setAddedId] = useState<string | null>(null);
+    const [awardProducts, setAwardProducts] = useState<Product[]>(allProducts.filter(p => p.category === "Award Gifts"));
+    const [loading, setLoading] = useState(true);
 
-    const awardProducts = allProducts.filter(p => p.category === "Award Gifts");
+    React.useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const q = query(
+                    collection(db, "products"),
+                    where("category", "==", "Award Gifts"),
+                    orderBy("createdAt", "desc")
+                );
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const items: Product[] = [];
+                    querySnapshot.forEach((doc) => {
+                        items.push({ id: doc.id, ...doc.data() } as Product);
+                    });
+                    setAwardProducts(items);
+                }
+            } catch (error) {
+                console.error("Error fetching awards:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handleAddToCart = (product: any) => {
         addToCart({

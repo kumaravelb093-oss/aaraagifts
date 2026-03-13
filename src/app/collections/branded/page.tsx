@@ -5,11 +5,39 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-import { allProducts } from "@/data/products";
+import { allProducts, Product } from "@/data/products";
 import { Sparkles } from "lucide-react";
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 
 export default function BrandedCollectionPage() {
-    const brandedProducts = allProducts.filter(p => p.category === "Branded Gift");
+    const [brandedProducts, setBrandedProducts] = React.useState<Product[]>(allProducts.filter(p => p.category === "Branded Gift"));
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const q = query(
+                    collection(db, "products"),
+                    where("category", "==", "Branded Gift"),
+                    orderBy("createdAt", "desc")
+                );
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const items: Product[] = [];
+                    querySnapshot.forEach((doc) => {
+                        items.push({ id: doc.id, ...doc.data() } as Product);
+                    });
+                    setBrandedProducts(items);
+                }
+            } catch (error) {
+                console.error("Error fetching branded:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     return (
         <main className="relative bg-brand-ivory min-h-screen">

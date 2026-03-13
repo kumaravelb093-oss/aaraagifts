@@ -8,13 +8,40 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShoppingBag, ChevronRight, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import { allProducts } from '@/data/products';
+import { allProducts, Product } from '@/data/products';
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 
 export default function ApparelPage() {
     const { addToCart } = useCart();
     const [addedId, setAddedId] = useState<string | null>(null);
+    const [apparelProducts, setApparelProducts] = useState<Product[]>(allProducts.filter(p => p.category === "Apparel & T-Shirts"));
+    const [loading, setLoading] = useState(true);
 
-    const apparelProducts = allProducts.filter(p => p.category === "Apparel & T-Shirts");
+    React.useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const q = query(
+                    collection(db, "products"),
+                    where("category", "==", "Apparel & T-Shirts"),
+                    orderBy("createdAt", "desc")
+                );
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const items: Product[] = [];
+                    querySnapshot.forEach((doc) => {
+                        items.push({ id: doc.id, ...doc.data() } as Product);
+                    });
+                    setApparelProducts(items);
+                }
+            } catch (error) {
+                console.error("Error fetching apparel:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handleAddToCart = (product: any) => {
         addToCart({

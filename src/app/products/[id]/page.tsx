@@ -9,6 +9,8 @@ import Image from 'next/image';
 import { ShoppingBag, MessageCircle, Send, ChevronRight, Check, ArrowLeft } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { allProducts, Product } from '@/data/products';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import Link from 'next/link';
 
 const ProductPage = () => {
@@ -19,8 +21,27 @@ const ProductPage = () => {
     const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
 
     useEffect(() => {
-        const found = allProducts.find(p => p.id === id);
-        if (found) setProduct(found);
+        const fetchProduct = async () => {
+            // First check static products
+            const found = allProducts.find(p => p.id === id);
+            if (found) {
+                setProduct(found);
+                return;
+            }
+
+            // Then check Firestore
+            try {
+                const docRef = doc(db, 'products', id as string);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setProduct({ id: docSnap.id, ...docSnap.data() } as any);
+                }
+            } catch (error) {
+                console.error("Error fetching product details:", error);
+            }
+        };
+
+        if (id) fetchProduct();
     }, [id]);
 
     const handleAddToCart = () => {

@@ -8,14 +8,44 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShoppingBag, ChevronRight, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import { allProducts } from '@/data/products';
+import { allProducts, Product } from '@/data/products';
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 
 // Filter wedding products from the main catalog
-const weddingProducts = allProducts.filter(p => p.category === "Wedding Return Gifts");
+const staticWeddingProducts = allProducts.filter(p => p.category === "Wedding Return Gifts");
 
 export default function WeddingPage() {
     const { addToCart } = useCart();
     const [addedId, setAddedId] = useState<string | null>(null);
+    const [weddingProducts, setWeddingProducts] = useState<Product[]>(staticWeddingProducts);
+    const [loading, setLoading] = useState(true);
+
+    React.useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const q = query(
+                    collection(db, "products"),
+                    where("category", "==", "Wedding Return Gifts"),
+                    orderBy("createdAt", "desc")
+                );
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const items: Product[] = [];
+                    querySnapshot.forEach((doc) => {
+                        items.push({ id: doc.id, ...doc.data() } as Product);
+                    });
+                    setWeddingProducts(items);
+                }
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     const handleAddToCart = (product: any) => {
         addToCart({

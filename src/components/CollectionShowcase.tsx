@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
-const collections = [
+const staticCollections = [
     {
         title: "The Royal Box",
         img: "/assets/images/products/wedding/wed5.jpg",
@@ -28,7 +28,39 @@ const collections = [
     },
 ];
 
+import { db } from '@/lib/firebase';
+import { collection, query, getDocs, limit, orderBy } from 'firebase/firestore';
+
 const CollectionShowcase = () => {
+    const [collectionsData, setCollectionsData] = React.useState(staticCollections);
+
+    React.useEffect(() => {
+        const fetchFeatured = async () => {
+            try {
+                const q = query(
+                    collection(db, "products"),
+                    orderBy("createdAt", "desc"),
+                    limit(4)
+                );
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const items: any[] = [];
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        items.push({
+                            title: data.title,
+                            img: data.img,
+                            tag: data.tag || "Featured"
+                        });
+                    });
+                    setCollectionsData(items);
+                }
+            } catch (error) {
+                console.error("Error fetching featured:", error);
+            }
+        };
+        fetchFeatured();
+    }, []);
     return (
         <section className="py-40 bg-brand-ivory relative overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
@@ -56,7 +88,7 @@ const CollectionShowcase = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-                    {collections.map((item, i) => (
+                    {collectionsData.map((item, i) => (
                         <motion.div
                             key={i}
                             initial={{ opacity: 0, y: 30 }}

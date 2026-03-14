@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation';
 import {
     ArrowLeft,
     Save,
-    Package,
     Info,
     Type,
     Tag as TagIcon,
-    Image as ImageIcon
+    Image as ImageIcon,
+    AlertCircle,
+    CheckCircle2
 } from 'lucide-react';
 import Link from 'next/link';
 import { db } from '@/lib/firebase';
@@ -25,6 +26,8 @@ interface Specification {
 export default function NewProductPage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [saveError, setSaveError] = useState<string | null>(null);
+    const [saveSuccess, setSaveSuccess] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
         subtitle: '',
@@ -46,6 +49,14 @@ export default function NewProductPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setSaveError(null);
+        setSaveSuccess(false);
+
+        if (!formData.title.trim()) {
+            setSaveError('Product title is required.');
+            return;
+        }
+
         setIsLoading(true);
 
         try {
@@ -54,10 +65,17 @@ export default function NewProductPage() {
                 specifications: specs,
                 createdAt: serverTimestamp(),
             });
-            router.push('/admin/products');
-        } catch (error) {
+            setSaveSuccess(true);
+            setTimeout(() => {
+                router.push('/admin/products');
+            }, 800);
+        } catch (error: any) {
             console.error('Error adding product:', error);
-            alert('Failed to add product. Please check console.');
+            setSaveError(
+                error?.message
+                    ? `Failed to save: ${error.message}`
+                    : 'Failed to save product. Check your Firebase connection and try again.'
+            );
         } finally {
             setIsLoading(false);
         }
@@ -80,6 +98,20 @@ export default function NewProductPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Error / Success Banner */}
+            {saveError && (
+                <div className="flex items-center space-x-3 bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-2xl text-sm font-medium">
+                    <AlertCircle size={18} className="flex-shrink-0" />
+                    <span>{saveError}</span>
+                </div>
+            )}
+            {saveSuccess && (
+                <div className="flex items-center space-x-3 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-2xl text-sm font-medium">
+                    <CheckCircle2 size={18} className="flex-shrink-0" />
+                    <span>Product saved successfully! Redirecting...</span>
+                </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-8 pb-12">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -36,72 +36,28 @@ const showcaseImages = [
     { src: "/assets/images/corporate/flask1.jpeg", alt: "Insulated Flask" },
 ];
 
-import { db } from '@/lib/firebase';
-import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
-
 const CorporateSection = () => {
-    const [products, setProducts] = React.useState<any[]>([]);
-    const [loading, setLoading] = React.useState(true);
-
-    React.useEffect(() => {
-        const fetchCorporate = async () => {
-            try {
-                const q = query(
-                    collection(db, "products"),
-                    where("category", "==", "Corporate Studio"),
-                    limit(4)
-                );
-                const querySnapshot = await getDocs(q);
-                if (!querySnapshot.empty) {
-                    const items: any[] = [];
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        items.push({
-                            src: data.img,
-                            alt: data.title
-                        });
-                    });
-                    setProducts(items);
-                }
-            } catch (error) {
-                console.error("Error fetching corporate products:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchCorporate();
-    }, []);
-
-    const displayImages = [
-        ...products,
-        ...showcaseImages.filter(si => !products.some(p => p.src === si.src))
-    ].slice(0, 4);
     return (
         <section className="py-32 bg-brand-ivory">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-                    {/* Image Grid */}
                     <motion.div
-                        initial={{ opacity: 0, x: -40 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 1 }}
-                        viewport={{ once: true }}
-                        className="grid grid-cols-2 gap-3"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.5 }}
+                        className="grid grid-cols-2 gap-4"
                     >
-                        {displayImages.map((img, i) => (
-                            <div
-                                key={i}
-                                className={`relative overflow-hidden rounded-xl group ${i === 0 ? 'aspect-[4/5]' : i === 3 ? 'aspect-[4/5]' : 'aspect-square'
-                                    } ${i === 1 ? 'mt-8' : ''} ${i === 2 ? '-mt-4' : ''}`}
-                            >
+                        {showcaseImages.map((img, i) => (
+                            <div key={i} className={`relative overflow-hidden group ${i % 2 === 1 ? 'mt-12' : ''}`}>
                                 <Image
                                     src={img.src}
-                                    alt={img.alt}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    alt="Corporate Gifting"
+                                    width={400}
+                                    height={500}
+                                    className="object-cover h-[400px] w-full transition-transform duration-[2s] group-hover:scale-110"
                                     unoptimized
                                 />
-                                <div className="absolute inset-0 bg-brand-maroon/0 group-hover:bg-brand-maroon/10 transition-all duration-500" />
+                                <div className="absolute inset-0 bg-brand-espresso/20 group-hover:bg-transparent transition-colors duration-700" />
                             </div>
                         ))}
                     </motion.div>

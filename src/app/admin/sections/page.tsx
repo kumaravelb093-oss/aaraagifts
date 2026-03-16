@@ -21,13 +21,16 @@ interface Section {
     type: string;
     isActive: boolean;
     order: number;
+    imageUrl?: string;
+    href?: string;
 }
 
 export default function SectionsPage() {
     const [sections, setSections] = useState<Section[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
-    const [newSection, setNewSection] = useState({ title: '', type: 'Hero Banner' });
+    const [editingSection, setEditingSection] = useState<Section | null>(null);
+    const [newSection, setNewSection] = useState({ title: '', type: 'Quick Category', imageUrl: '', href: '' });
 
     useEffect(() => {
         fetchSections();
@@ -61,9 +64,19 @@ export default function SectionsPage() {
             });
             setSections([...sections, { id: docRef.id, ...newSection, isActive: true, order: sections.length }]);
             setIsAdding(false);
-            setNewSection({ title: '', type: 'Hero Banner' });
+            setNewSection({ title: '', type: 'Quick Category', imageUrl: '', href: '' });
         } catch (error) {
             console.error('Error creating section:', error);
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this section?')) return;
+        try {
+            await deleteDoc(doc(db, 'sections', id));
+            setSections(sections.filter(s => s.id !== id));
+        } catch (error) {
+            console.error('Error deleting section:', error);
         }
     };
 
@@ -76,16 +89,43 @@ export default function SectionsPage() {
         }
     };
 
+    const handleUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingSection) return;
+        try {
+            const { id, ...data } = editingSection;
+            await updateDoc(doc(db, 'sections', id), data);
+            setSections(sections.map(s => s.id === id ? editingSection : s));
+            setEditingSection(null);
+        } catch (error) {
+            console.error('Error updating section:', error);
+        }
+    };
+
     const moveOrder = async (index: number, direction: 'up' | 'down') => {
         if (direction === 'up' && index === 0) return;
         if (direction === 'down' && index === sections.length - 1) return;
 
         const newSections = [...sections];
         const swapIndex = direction === 'up' ? index - 1 : index + 1;
+        
+        // Swap locally
+        const temp = newSections[index].order;
+        newSections[index].order = newSections[swapIndex].order;
+        newSections[swapIndex].order = temp;
         [newSections[index], newSections[swapIndex]] = [newSections[swapIndex], newSections[index]];
 
         setSections(newSections);
-        // Ideally update order in Firestore here too
+
+        // Update in Firestore
+        try {
+            await Promise.all([
+                updateDoc(doc(db, 'sections', newSections[index].id), { order: newSections[index].order }),
+                updateDoc(doc(db, 'sections', newSections[swapIndex].id), { order: newSections[swapIndex].order })
+            ]);
+        } catch (error) {
+            console.error('Error updating order:', error);
+        }
     };
 
     return (
@@ -130,12 +170,32 @@ export default function SectionsPage() {
                                     value={newSection.type}
                                     onChange={(e) => setNewSection({ ...newSection, type: e.target.value })}
                                 >
+                                    <option>Quick Category</option>
                                     <option>Hero Banner</option>
                                     <option>Featured Grid</option>
-                                    <option>Scrolling Carousel</option>
-                                    <option>Testimonial Slider</option>
-                                    <option>Newsletter Opt-in</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="text-sm font-bold text-gray-700 block mb-2">Image URL</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. /assets/images/categories/new.jpg"
+                                    className="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-green-100 transition-all font-medium"
+                                    value={newSection.imageUrl}
+                                    onChange={(e) => setNewSection({ ...newSection, imageUrl: e.target.value })}
+                                />
+                            </div>
+                            <div>
+                                <label className="text-sm font-bold text-gray-700 block mb-2">Target Link (or Category Name)</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. /collections/mugs or Luxury Hampers"
+                                    className="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-green-100 transition-all font-medium"
+                                    value={newSection.href}
+                                    onChange={(e) => setNewSection({ ...newSection, href: e.target.value })}
+                                />
                             </div>
                         </div>
                         <div className="flex justify-end space-x-3 mt-6">
@@ -194,10 +254,16 @@ export default function SectionsPage() {
                                     >
                                         {section.isActive ? <Eye size={20} /> : <EyeOff size={20} />}
                                     </button>
-                                    <button className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                                    <button 
+                                        onClick={() => setEditingSection(section)}
+                                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                    >
                                         <Edit3 size={20} />
                                     </button>
-                                    <button className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">
+                                    <button 
+                                        onClick={() => handleDelete(section.id)}
+                                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                                    >
                                         <Trash2 size={20} />
                                     </button>
                                 </div>
@@ -206,6 +272,78 @@ export default function SectionsPage() {
                     </div>
                 )}
             </div>
+            {/* Edit Modal */}
+            {editingSection && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-white w-full max-w-2xl p-8 rounded-3xl shadow-2xl animate-in zoom-in-95 duration-200">
+                        <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                            <Edit3 size={24} className="mr-3 text-blue-500" />
+                            Edit Website Section
+                        </h3>
+                        <form onSubmit={handleUpdate} className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="text-sm font-bold text-gray-700 block mb-2">Section Title</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-100 transition-all font-medium"
+                                        value={editingSection.title}
+                                        onChange={(e) => setEditingSection({ ...editingSection, title: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-sm font-bold text-gray-700 block mb-2">Section Type</label>
+                                    <select
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-100 transition-all font-medium appearance-none"
+                                        value={editingSection.type}
+                                        onChange={(e) => setEditingSection({ ...editingSection, type: e.target.value })}
+                                    >
+                                        <option>Quick Category</option>
+                                        <option>Hero Banner</option>
+                                        <option>Featured Grid</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="text-sm font-bold text-gray-700 block mb-2">Image URL</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-100 transition-all font-medium"
+                                        value={editingSection.imageUrl || ''}
+                                        onChange={(e) => setEditingSection({ ...editingSection, imageUrl: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-sm font-bold text-gray-700 block mb-2">Target Link</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-100 transition-all font-medium"
+                                        value={editingSection.href || ''}
+                                        onChange={(e) => setEditingSection({ ...editingSection, href: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex justify-end space-x-4 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setEditingSection(null)}
+                                    className="px-6 py-3 text-gray-500 font-semibold hover:bg-gray-100 rounded-xl transition-all"
+                                >
+                                    Cancel Changes
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
+                                >
+                                    Save Updates
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
-}
+};

@@ -1,56 +1,25 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Shirt, ArrowRight, ShoppingBag, Check, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { allProducts, Product } from '@/data/products';
-import { db } from '@/lib/firebase';
-import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
+
 
 const ApparelSection = () => {
     const { addToCart } = useCart();
-    const [products, setProducts] = React.useState<any[]>([]);
-    const [addedId, setAddedId] = React.useState<string | null>(null);
+    const [addedId, setAddedId] = useState<string | null>(null);
 
-    React.useEffect(() => {
-        const fetchApparel = async () => {
-            try {
-                const q = query(
-                    collection(db, "products"),
-                    where("category", "==", "Apparel & T-Shirts"),
-                    limit(6)
-                );
-                const querySnapshot = await getDocs(q);
-                const items: any[] = [];
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    items.push({
-                        id: doc.id,
-                        title: data.title,
-                        img: data.img,
-                        tag: data.tag || "New Arrival",
-                        subtitle: data.subtitle || ""
-                    });
-                });
-                
-                const staticApparel = allProducts.filter((p: Product) => p.category === "Apparel & T-Shirts").map((p: Product) => ({
-                    id: p.id,
-                    title: p.title,
-                    img: p.img,
-                    tag: p.tag || "Classic",
-                    subtitle: p.subtitle || ""
-                }));
-                const firestoreIds = new Set(items.map(i => i.id));
-                setProducts([...items, ...staticApparel.filter((p: any) => !firestoreIds.has(p.id))].slice(0, 6));
-            } catch (error) {
-                console.error("Error fetching apparel products:", error);
-            }
-        };
-        fetchApparel();
-    }, []);
+    const initialProducts = allProducts.filter((p: Product) => p.category === "Apparel & T-Shirts").map((p: Product) => ({
+        id: p.id,
+        title: p.title,
+        img: p.img,
+        tag: p.tag || "Classic",
+        subtitle: p.subtitle || ""
+    })).slice(0, 6);
 
     const handleAddToCart = (product: any) => {
         addToCart({
@@ -62,64 +31,53 @@ const ApparelSection = () => {
         setTimeout(() => setAddedId(null), 2000);
     };
 
-    if (products.length === 0) return null;
-
     return (
-        <section id="apparel" className="py-40 bg-brand-ivory relative overflow-hidden">
-            <div className="container mx-auto px-6 relative z-10">
-                <div className="flex flex-col md:flex-row justify-between items-center mb-24 text-center md:text-left">
-                    <div className="max-w-2xl mb-12 md:mb-0">
-                        <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
-                            <Shirt className="text-brand-copper w-4 h-4" />
-                            <span className="text-[10px] uppercase tracking-[0.5em] text-brand-copper font-bold">Lifestyle & Apparel</span>
+        <section className="py-32 bg-white relative overflow-hidden">
+            <div className="container mx-auto px-6">
+                <div className="flex flex-col lg:flex-row justify-between items-start mb-20 gap-8">
+                    <div className="max-w-3xl">
+                        <div className="flex items-center gap-4 mb-8">
+                            <Shirt className="text-brand-copper" size={24} />
+                            <span className="text-[10px] lg:text-[11px] uppercase tracking-[0.5em] text-brand-copper font-bold">Lifestyle & Apparel</span>
                         </div>
-                        <h2 className="text-5xl md:text-8xl font-serif text-brand-espresso leading-none tracking-tighter">
+                        <h2 className="text-6xl md:text-9xl font-serif text-brand-espresso leading-none tracking-tighter mb-8">
                             Institutional <br />
-                            <span className="italic font-light text-stroke-dark opacity-60">Apparel.</span>
+                            <span className="italic font-light text-brand-brown">Apparel.</span>
                         </h2>
                     </div>
-
                     <Link
                         href="/collections/apparel"
-                        className="group flex items-center gap-6 px-12 py-6 border border-brand-espresso/10 text-[10px] tracking-[0.4em] uppercase font-bold text-brand-espresso hover:bg-brand-espresso hover:text-white transition-all duration-700"
+                        className="mt-8 lg:mt-0 flex items-center gap-4 group px-10 py-6 bg-brand-ivory rounded-full hover:bg-brand-copper transition-all duration-500"
                     >
-                        Explore T-Shirts
-                        <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform duration-500" />
+                        <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-espresso group-hover:text-white transition-colors">Explore T-Shirts</span>
+                        <ArrowRight className="text-brand-copper group-hover:text-white group-hover:translate-x-2 transition-all" size={20} />
                     </Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                    {products.map((product, i) => (
+                    {initialProducts.map((product, i) => (
                         <motion.div
                             key={product.id}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1.2, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                            transition={{ duration: 1, delay: i * 0.1 }}
                             viewport={{ once: true }}
                             className="group"
                         >
-                            <div className="relative aspect-square overflow-hidden mb-10 bg-white shadow-sm group-hover:shadow-2xl transition-all duration-1000">
-                                <Link href={`/products/${product.id}`}>
-                                    <Image
+                            <div className="relative aspect-[4/5] overflow-hidden mb-8 rounded-2xl bg-brand-ivory/50">
+                                <Link href={`/collections/apparel`}>
+                                    <img
                                         src={product.img}
                                         alt={product.title}
-                                        fill
-                                        className="object-cover transition-transform duration-[2s] group-hover:scale-110"
-                                        unoptimized
+                                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
                                     />
                                 </Link>
-
-                                <div className="absolute top-4 left-4 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-[7px] uppercase tracking-[0.3em] font-bold text-brand-espresso border border-brand-copper/20">
-                                    {product.tag}
+                                <div className="absolute top-6 left-6">
+                                    <span className="px-5 py-2 glass-light text-[9px] uppercase tracking-widest font-bold text-brand-espresso backdrop-blur-md rounded-full border border-white/20">
+                                        {product.tag}
+                                    </span>
                                 </div>
-
                                 <div className="absolute inset-x-0 bottom-0 p-8 glass-brown translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex flex-col items-center gap-3">
-                                    <Link
-                                        href={`/products/${product.id}`}
-                                        className="w-full py-4 bg-white/90 backdrop-blur-sm text-brand-brown text-[10px] uppercase font-bold tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-2"
-                                    >
-                                        View Details <ChevronRight size={14} />
-                                    </Link>
                                     <button
                                         onClick={() => handleAddToCart(product)}
                                         className={`w-full py-4 text-[10px] uppercase font-bold tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl ${addedId === product.id
@@ -138,15 +96,17 @@ const ApparelSection = () => {
                                             </>
                                         )}
                                     </button>
+                                    <Link
+                                        href={`/collections/apparel`}
+                                        className="w-full py-4 bg-white/90 backdrop-blur-sm text-brand-brown text-[10px] uppercase font-bold tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        View Details <ChevronRight size={14} />
+                                    </Link>
                                 </div>
                             </div>
-
-                            <div className="text-center px-4">
-                                <div className="h-[1px] w-8 bg-brand-copper/30 mx-auto mb-6 group-hover:w-20 transition-all duration-700" />
-                                <Link href={`/products/${product.id}`}>
-                                    <h3 className="text-2xl font-serif text-brand-espresso mb-3 tracking-tight group-hover:text-brand-copper transition-colors">{product.title}</h3>
-                                </Link>
-                                <p className="text-[10px] uppercase tracking-[0.2em] text-brand-espresso/50 font-medium">{product.subtitle}</p>
+                            <div>
+                                <h3 className="text-3xl font-serif text-brand-espresso group-hover:text-brand-copper transition-colors mb-2">{product.title}</h3>
+                                <p className="text-brand-espresso/50 text-[10px] uppercase tracking-widest font-bold">{product.subtitle}</p>
                             </div>
                         </motion.div>
                     ))}

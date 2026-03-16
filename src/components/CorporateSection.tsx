@@ -72,7 +72,10 @@ const CorporateSection = () => {
         fetchCorporate();
     }, []);
 
-    const displayImages = products.length > 0 ? products : showcaseImages;
+    const displayImages = [
+        ...products,
+        ...showcaseImages.filter(si => !products.some(p => p.src === si.src))
+    ].slice(0, 4);
     return (
         <section className="py-32 bg-brand-ivory">
             <div className="container mx-auto px-6">

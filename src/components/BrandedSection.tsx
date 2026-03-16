@@ -57,7 +57,10 @@ const BrandedSection = () => {
         fetchBranded();
     }, []);
 
-    const displayProducts = products.length > 0 ? products : brandedProducts;
+    const displayProducts = [
+        ...products,
+        ...brandedProducts.filter(bp => !products.some(p => p.id === bp.id))
+    ].slice(0, 10);
     return (
         <section id="branded" className="py-40 bg-white relative overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">

@@ -5,9 +5,10 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Shirt, ArrowRight, ShoppingBag, Check, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import { useCart } from '@/context/CartContext';
+import { allProducts, Product } from '@/data/products';
 import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
-import { useCart } from '@/context/CartContext';
 
 const ApparelSection = () => {
     const { addToCart } = useCart();
@@ -23,20 +24,27 @@ const ApparelSection = () => {
                     limit(6)
                 );
                 const querySnapshot = await getDocs(q);
-                if (!querySnapshot.empty) {
-                    const items: any[] = [];
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        items.push({
-                            id: doc.id,
-                            title: data.title,
-                            img: data.img,
-                            tag: data.tag || "New Arrival",
-                            subtitle: data.subtitle || ""
-                        });
+                const items: any[] = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    items.push({
+                        id: doc.id,
+                        title: data.title,
+                        img: data.img,
+                        tag: data.tag || "New Arrival",
+                        subtitle: data.subtitle || ""
                     });
-                    setProducts(items);
-                }
+                });
+                
+                const staticApparel = allProducts.filter((p: Product) => p.category === "Apparel & T-Shirts").map((p: Product) => ({
+                    id: p.id,
+                    title: p.title,
+                    img: p.img,
+                    tag: p.tag || "Classic",
+                    subtitle: p.subtitle || ""
+                }));
+                const firestoreIds = new Set(items.map(i => i.id));
+                setProducts([...items, ...staticApparel.filter((p: any) => !firestoreIds.has(p.id))].slice(0, 6));
             } catch (error) {
                 console.error("Error fetching apparel products:", error);
             }

@@ -30,6 +30,7 @@ const staticCollections = [
 
 import { db } from '@/lib/firebase';
 import { collection, query, getDocs, limit, orderBy, where } from 'firebase/firestore';
+import { allProducts, Product } from '@/data/products';
 
 const CollectionShowcase = () => {
     const [collectionsData, setCollectionsData] = React.useState(staticCollections);
@@ -43,18 +44,27 @@ const CollectionShowcase = () => {
                     limit(4)
                 );
                 const querySnapshot = await getDocs(q);
-                if (!querySnapshot.empty) {
-                    const items: any[] = [];
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        items.push({
-                            title: data.title,
-                            img: data.img,
-                            tag: data.tag || "Featured"
-                        });
+                const items: any[] = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    items.push({
+                        id: doc.id,
+                        title: data.title,
+                        img: data.img,
+                        tag: data.tag || "Exclusive",
+                        subtitle: data.subtitle || ""
                     });
-                    setCollectionsData(items);
-                }
+                });
+                
+                const staticSignature = allProducts.filter((p: Product) => p.category === "Signature Hampers").map((p: Product) => ({
+                    id: p.id,
+                    title: p.title,
+                    img: p.img,
+                    tag: p.tag || "Legacy",
+                    subtitle: p.subtitle || ""
+                }));
+                const firestoreIds = new Set(items.map(i => i.id));
+                setCollectionsData([...items, ...staticSignature.filter((p: any) => !firestoreIds.has(p.id))].slice(0, 4));
             } catch (error) {
                 console.error("Error fetching featured:", error);
             }

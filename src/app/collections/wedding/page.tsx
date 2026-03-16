@@ -29,13 +29,18 @@ export default function WeddingPage() {
                     where("category", "==", "Wedding Return Gifts")
                 );
                 const querySnapshot = await getDocs(q);
-                if (!querySnapshot.empty) {
-                    const items: Product[] = [];
-                    querySnapshot.forEach((doc) => {
-                        items.push({ id: doc.id, ...doc.data() } as Product);
-                    });
-                    setWeddingProducts(items);
-                }
+                const items: Product[] = [];
+                querySnapshot.forEach((doc) => {
+                    items.push({ id: doc.id, ...doc.data() } as Product);
+                });
+                
+                // Merge Firestore products with static products, prioritizing Firestore (newest)
+                setWeddingProducts(prevProducts => {
+                    const existingStatic = allProducts.filter(p => p.category === "Wedding Return Gifts");
+                    const firestoreIds = new Set(items.map(i => i.id));
+                    const combined = [...items, ...existingStatic.filter(p => !firestoreIds.has(p.id))];
+                    return combined;
+                });
             } catch (error) {
                 console.error("Error fetching products:", error);
             } finally {

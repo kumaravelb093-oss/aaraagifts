@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
 import { useCart } from '@/context/CartContext';
+import { allProducts, Product } from '@/data/products';
 
 const WeddingReturnSection = () => {
     const { addToCart } = useCart();
@@ -23,20 +24,27 @@ const WeddingReturnSection = () => {
                     limit(6)
                 );
                 const querySnapshot = await getDocs(q);
-                if (!querySnapshot.empty) {
-                    const items: any[] = [];
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        items.push({
-                            id: doc.id,
-                            title: data.title,
-                            img: data.img,
-                            tag: data.tag || "Heritage",
-                            subtitle: data.subtitle || ""
-                        });
+                const items: any[] = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    items.push({
+                        id: doc.id,
+                        title: data.title,
+                        img: data.img,
+                        tag: data.tag || "Heritage",
+                        subtitle: data.subtitle || ""
                     });
-                    setProducts(items);
-                }
+                });
+                
+                const staticWedding = allProducts.filter((p: Product) => p.category === "Wedding Return Gifts").map((p: Product) => ({
+                    id: p.id,
+                    title: p.title,
+                    img: p.img,
+                    tag: p.tag || "Heritage",
+                    subtitle: p.subtitle || ""
+                }));
+                const firestoreIds = new Set(items.map(i => i.id));
+                setProducts([...items, ...staticWedding.filter((p: any) => !firestoreIds.has(p.id))].slice(0, 6));
             } catch (error) {
                 console.error("Error fetching wedding products:", error);
             }

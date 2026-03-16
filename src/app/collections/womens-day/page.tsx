@@ -8,14 +8,42 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShoppingBag, ChevronRight, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import { allProducts } from '@/data/products';
-
-// Filter Women's Day products from the main catalog
-const products = allProducts.filter(p => p.category === "Women's Day Gifts");
+import { allProducts, Product } from '@/data/products';
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 export default function WomensDayPage() {
     const { addToCart } = useCart();
     const [addedId, setAddedId] = useState<string | null>(null);
+    const [products, setProducts] = useState<Product[]>(allProducts.filter(p => p.category === "Women's Day Gifts"));
+    const [loading, setLoading] = useState(true);
+
+    React.useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const q = query(
+                    collection(db, "products"),
+                    where("category", "==", "Women's Day Gifts")
+                );
+                const querySnapshot = await getDocs(q);
+                const items: Product[] = [];
+                querySnapshot.forEach((doc) => {
+                    items.push({ id: doc.id, ...doc.data() } as Product);
+                });
+                
+                setProducts(prev => {
+                    const existingStatic = allProducts.filter(p => p.category === "Women's Day Gifts");
+                    const firestoreIds = new Set(items.map(i => i.id));
+                    return [...items, ...existingStatic.filter(p => !firestoreIds.has(p.id))];
+                });
+            } catch (error) {
+                console.error("Error fetching womens day products:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handleAddToCart = (product: any) => {
         addToCart({

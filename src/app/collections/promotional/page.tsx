@@ -8,13 +8,43 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShoppingBag, ChevronRight, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import { allProducts } from '@/data/products';
+import { allProducts, Product } from '@/data/products';
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 export default function PromotionalPage() {
     const { addToCart } = useCart();
     const [addedId, setAddedId] = useState<string | null>(null);
 
-    const promotionalProducts = allProducts.filter(p => p.category === "Promotional Gifts");
+    const [promotionalProducts, setPromotionalProducts] = useState<Product[]>(allProducts.filter(p => p.category === "Promotional Gifts"));
+    const [loading, setLoading] = useState(true);
+
+    React.useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const q = query(
+                    collection(db, "products"),
+                    where("category", "==", "Promotional Gifts")
+                );
+                const querySnapshot = await getDocs(q);
+                const items: Product[] = [];
+                querySnapshot.forEach((doc) => {
+                    items.push({ id: doc.id, ...doc.data() } as Product);
+                });
+                
+                setPromotionalProducts(prev => {
+                    const existingStatic = allProducts.filter(p => p.category === "Promotional Gifts");
+                    const firestoreIds = new Set(items.map(i => i.id));
+                    return [...items, ...existingStatic.filter(p => !firestoreIds.has(p.id))];
+                });
+            } catch (error) {
+                console.error("Error fetching promotional:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handleAddToCart = (product: any) => {
         addToCart({

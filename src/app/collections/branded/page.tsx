@@ -22,13 +22,18 @@ export default function BrandedCollectionPage() {
                     where("category", "==", "Branded Gift")
                 );
                 const querySnapshot = await getDocs(q);
-                if (!querySnapshot.empty) {
-                    const items: Product[] = [];
-                    querySnapshot.forEach((doc) => {
-                        items.push({ id: doc.id, ...doc.data() } as Product);
-                    });
-                    setBrandedProducts(items);
-                }
+                const items: Product[] = [];
+                querySnapshot.forEach((doc) => {
+                    items.push({ id: doc.id, ...doc.data() } as Product);
+                });
+                
+                // Merge Firestore products with static products, prioritizing Firestore (newest)
+                setBrandedProducts(prevProducts => {
+                    const existingStatic = allProducts.filter(p => p.category === "Branded Gift");
+                    const firestoreIds = new Set(items.map(i => i.id));
+                    const combined = [...items, ...existingStatic.filter(p => !firestoreIds.has(p.id))];
+                    return combined;
+                });
             } catch (error) {
                 console.error("Error fetching branded:", error);
             } finally {

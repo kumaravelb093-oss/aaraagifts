@@ -48,13 +48,14 @@ export default function EditProductPage({ params }: PageProps) {
     const [specs, setSpecs] = useState<Specification[]>([]);
 
     const categories = [
-        'Wedding Return Gifts',
-        'Corporate Studio',
-        'Promotional Gifts',
-        'Apparel & T-Shirts',
-        'Award Gifts',
-        'Branded Gift'
-    ];
+    'Signature Hampers',
+    'Wedding Return Gifts',
+    'Corporate Studio',
+    'Promotional Gifts',
+    'Apparel & T-Shirts',
+    'Award Gifts',
+    'Branded Gift'
+];
 
     useEffect(() => {
         const fetchProduct = async () => {

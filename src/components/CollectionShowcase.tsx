@@ -29,7 +29,7 @@ const staticCollections = [
 ];
 
 import { db } from '@/lib/firebase';
-import { collection, query, getDocs, limit, orderBy } from 'firebase/firestore';
+import { collection, query, getDocs, limit, orderBy, where } from 'firebase/firestore';
 
 const CollectionShowcase = () => {
     const [collectionsData, setCollectionsData] = React.useState(staticCollections);
@@ -39,6 +39,7 @@ const CollectionShowcase = () => {
             try {
                 const q = query(
                     collection(db, "products"),
+                    where("category", "==", "Signature Hampers"),
                     orderBy("createdAt", "desc"),
                     limit(4)
                 );

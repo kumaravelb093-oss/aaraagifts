@@ -5,70 +5,60 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
+
 const brandedProducts = [
-    {
-        title: "Executive Noir Ensemble",
-        img: "/assets/images/branded/mens-luxury-set.png",
-        tag: "Premium",
-        subtitle: "Men's Personal Suite"
-    },
-    {
-        title: "Roman Heritage Chess",
-        img: "/assets/images/branded/roman-chess-set.jpg",
-        tag: "Artisan",
-        subtitle: "Metal & Wood Set"
-    },
-    {
-        title: "Grand Muse Station",
-        img: "/assets/images/branded/pro-makeup-vanity.png",
-        tag: "Professional",
-        subtitle: "Vanity Trunk"
-    },
-    {
-        title: "Artisan Harmony Box",
-        img: "/assets/images/branded/holiday-gourmet-hamper.jpg",
-        tag: "Seasonal",
-        subtitle: "Gourmet Hamper"
-    },
-    {
-        title: "Blossom Monogram Satchel",
-        img: "/assets/images/branded/coach-pink-handbag.png",
-        tag: "Designer",
-        subtitle: "Coach Companion"
-    },
-    {
-        title: "Chanel Rose Aura Suite",
-        img: "/assets/images/branded/chanel-perfume-set.png",
-        tag: "Iconic",
-        subtitle: "Perfume Ensemble"
-    },
-    {
-        title: "The Emerald Grove Set",
-        img: "/assets/images/branded/gatherers-grove-jewelry.png",
-        tag: "Artisanal",
-        subtitle: "Minimalist Jewelry"
-    },
-    {
-        title: "Southery Pearl Collection",
-        img: "/assets/images/branded/southery-pearl-collection.png",
-        tag: "Heritage",
-        subtitle: "Gemstone Curation"
-    },
-    {
-        title: "Celestial Voyager Mugs",
-        img: "/assets/images/branded/zodiac-constellation-mugs.png",
-        tag: "Bespoke",
-        subtitle: "Zodiac Constellation Pair"
-    },
-    {
-        title: "The Navigator's Tech Wrap",
-        img: "/assets/images/branded/leather-tech-wrap.png",
-        tag: "Executive",
-        subtitle: "Leather Tech Wrap"
-    },
+    { id: '1', title: "Executive Noir Ensemble", img: "/assets/images/branded/mens-luxury-set.png", tag: "Premium", subtitle: "Men's Personal Suite" },
+    { id: '2', title: "Roman Heritage Chess", img: "/assets/images/branded/roman-chess-set.jpg", tag: "Artisan", subtitle: "Metal & Wood Set" },
+    { id: '3', title: "Grand Muse Station", img: "/assets/images/branded/pro-makeup-vanity.png", tag: "Professional", subtitle: "Vanity Trunk" },
+    { id: '4', title: "Artisan Harmony Box", img: "/assets/images/branded/holiday-gourmet-hamper.jpg", tag: "Seasonal", subtitle: "Gourmet Hamper" },
+    { id: '5', title: "Blossom Monogram Satchel", img: "/assets/images/branded/coach-pink-handbag.png", tag: "Designer", subtitle: "Coach Companion" },
+    { id: '6', title: "Chanel Rose Aura Suite", img: "/assets/images/branded/chanel-perfume-set.png", tag: "Iconic", subtitle: "Perfume Ensemble" },
+    { id: '7', title: "The Emerald Grove Set", img: "/assets/images/branded/gatherers-grove-jewelry.png", tag: "Artisanal", subtitle: "Minimalist Jewelry" },
+    { id: '8', title: "Southery Pearl Collection", img: "/assets/images/branded/southery-pearl-collection.png", tag: "Heritage", subtitle: "Gemstone Curation" },
+    { id: '9', title: "Celestial Voyager Mugs", img: "/assets/images/branded/zodiac-constellation-mugs.png", tag: "Bespoke", subtitle: "Zodiac Constellation Pair" },
+    { id: '10', title: "The Navigator's Tech Wrap", img: "/assets/images/branded/leather-tech-wrap.png", tag: "Executive", subtitle: "Leather Tech Wrap" },
 ];
 
 const BrandedSection = () => {
+    const [products, setProducts] = React.useState<any[]>([]);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const fetchBranded = async () => {
+            try {
+                const q = query(
+                    collection(db, "products"),
+                    where("category", "==", "Branded Gift"),
+                    orderBy("createdAt", "desc"),
+                    limit(10)
+                );
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const items: any[] = [];
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        items.push({
+                            id: doc.id,
+                            title: data.title,
+                            img: data.img,
+                            tag: data.tag || "Premium",
+                            subtitle: data.subtitle || ""
+                        });
+                    });
+                    setProducts(items);
+                }
+            } catch (error) {
+                console.error("Error fetching branded products:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchBranded();
+    }, []);
+
+    const displayProducts = products.length > 0 ? products : brandedProducts;
     return (
         <section id="branded" className="py-40 bg-white relative overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
@@ -94,9 +84,9 @@ const BrandedSection = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
-                    {brandedProducts.map((item, i) => (
+                    {displayProducts.map((item: any, i: number) => (
                         <motion.div
-                            key={i}
+                            key={item.id || i}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1.2, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}

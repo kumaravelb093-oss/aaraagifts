@@ -1,0 +1,28 @@
+--- Collection: sections ---
+--- Collection: products ---
+{
+  "id": "xoDz0HBRD6vK7rJ0f4GW",
+  "title": "Black & White Half-Zip Knit Sweatshirt",
+  "subtitle": "Modern Color-Block Ribbed Knit Casual Pullover",
+  "img": "https://res.cloudinary.com/dsd1h3zr4/image/upload/v1773484161/aaraa_gifts/n70goro3b0cbu34vzi0d.jpg",
+  "createdAt": {
+    "type": "firestore/timestamp/1.0",
+    "seconds": 1773484235,
+    "nanoseconds": 891000000
+  },
+  "specifications": [
+    {
+      "value": "Regular Fit",
+      "label": "Fit Type"
+    }
+  ],
+  "tag": "New Arrival / Trending",
+  "description": "This stylish black and white color-block sweatshirt features a modern half-zip collar design with a ribbed knit panel in the center. The contrasting sleeves and body create a clean, minimal look that is perfect for casual wear. The soft knit fabric provides comfort and warmth, making it ideal for everyday use, outings, or smart-casual styling. The zipper collar allows adjustable ventilation and adds a fashionable touch to the overall design.           kkkkkkkkkkkkkkkkkkkkkk",
+  "category": "Apparel & T-Shirts",
+  "updatedAt": {
+    "type": "firestore/timestamp/1.0",
+    "seconds": 1773576021,
+    "nanoseconds": 967000000
+  }
+}
+--- Collection: categories ---

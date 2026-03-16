@@ -8,6 +8,8 @@ import ProcessSection from "@/components/ProcessSection";
 import CorporateSection from "@/components/CorporateSection";
 import InstagramSection from "@/components/InstagramSection";
 import BrandedSection from "@/components/BrandedSection";
+import ApparelSection from "@/components/ApparelSection";
+import WeddingReturnSection from "@/components/WeddingReturnSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import TechnicalDetails from "@/components/TechnicalDetails";
@@ -23,6 +25,8 @@ export default function Home() {
       <CategoryShowcase />
       <ProcessSection />
       <TechnicalDetails />
+      <WeddingReturnSection />
+      <ApparelSection />
       <CorporateSection />
       <BrandedSection />
       <CollectionShowcase />

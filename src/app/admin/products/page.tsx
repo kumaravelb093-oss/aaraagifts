@@ -31,9 +31,21 @@ export default function ProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     useEffect(() => {
         fetchProducts();
+        
+        // Handle clicks outside of menu to close it
+        const handleClickOutside = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (!target.closest('.action-menu-container')) {
+                setActiveMenuId(null);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
     const fetchProducts = async () => {
@@ -58,10 +70,17 @@ export default function ProductsPage() {
             try {
                 await deleteDoc(doc(db, 'products', id));
                 setProducts(products.filter(p => p.id !== id));
+                setActiveMenuId(null);
             } catch (error) {
                 console.error('Error deleting product:', error);
             }
         }
+    };
+
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
+        alert('Product ID copied to clipboard!');
+        setActiveMenuId(null);
     };
 
     const filteredProducts = products.filter(product =>
@@ -158,22 +177,64 @@ export default function ProductsPage() {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <div className="flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <div className="flex items-center justify-end space-x-2 relative action-menu-container">
                                                 <Link
                                                     href={`/admin/products/edit/${product.id}`}
-                                                    className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                                    className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all md:opacity-0 group-hover:opacity-100"
+                                                    title="Quick Edit"
                                                 >
                                                     <Edit2 size={18} />
                                                 </Link>
                                                 <button
                                                     onClick={() => handleDelete(product.id)}
-                                                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                                                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all md:opacity-0 group-hover:opacity-100"
+                                                    title="Delete"
                                                 >
                                                     <Trash2 size={18} />
                                                 </button>
-                                                <button className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
-                                                    <MoreVertical size={18} />
-                                                </button>
+                                                <div className="relative">
+                                                    <button 
+                                                        onClick={() => setActiveMenuId(activeMenuId === product.id ? null : product.id)}
+                                                        className={`p-2 rounded-lg transition-all ${activeMenuId === product.id ? 'bg-gray-100 text-gray-900' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-100'}`}
+                                                    >
+                                                        <MoreVertical size={18} />
+                                                    </button>
+                                                    
+                                                    {activeMenuId === product.id && (
+                                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                                            <Link 
+                                                                href={`/products/${product.id}`}
+                                                                target="_blank"
+                                                                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                                            >
+                                                                <ExternalLink size={16} className="mr-3 text-gray-400" />
+                                                                View on Site
+                                                            </Link>
+                                                            <Link 
+                                                                href={`/admin/products/edit/${product.id}`}
+                                                                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                                            >
+                                                                <Edit2 size={16} className="mr-3 text-gray-400" />
+                                                                Edit Details
+                                                            </Link>
+                                                            <button 
+                                                                onClick={() => copyToClipboard(product.id)}
+                                                                className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                                            >
+                                                                <AlertCircle size={16} className="mr-3 text-gray-400" />
+                                                                Copy Product ID
+                                                            </button>
+                                                            <div className="h-px bg-gray-100 my-1"></div>
+                                                            <button 
+                                                                onClick={() => handleDelete(product.id)}
+                                                                className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium"
+                                                            >
+                                                                <Trash2 size={16} className="mr-3 text-red-400" />
+                                                                Delete Product
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>

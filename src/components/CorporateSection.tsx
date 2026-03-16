@@ -36,7 +36,44 @@ const showcaseImages = [
     { src: "/assets/images/corporate/flask1.jpeg", alt: "Insulated Flask" },
 ];
 
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
+
 const CorporateSection = () => {
+    const [products, setProducts] = React.useState<any[]>([]);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const fetchCorporate = async () => {
+            try {
+                const q = query(
+                    collection(db, "products"),
+                    where("category", "==", "Corporate Studio"),
+                    orderBy("createdAt", "desc"),
+                    limit(4)
+                );
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const items: any[] = [];
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        items.push({
+                            src: data.img,
+                            alt: data.title
+                        });
+                    });
+                    setProducts(items);
+                }
+            } catch (error) {
+                console.error("Error fetching corporate products:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCorporate();
+    }, []);
+
+    const displayImages = products.length > 0 ? products : showcaseImages;
     return (
         <section className="py-32 bg-brand-ivory">
             <div className="container mx-auto px-6">
@@ -49,7 +86,7 @@ const CorporateSection = () => {
                         viewport={{ once: true }}
                         className="grid grid-cols-2 gap-3"
                     >
-                        {showcaseImages.map((img, i) => (
+                        {displayImages.map((img, i) => (
                             <div
                                 key={i}
                                 className={`relative overflow-hidden rounded-xl group ${i === 0 ? 'aspect-[4/5]' : i === 3 ? 'aspect-[4/5]' : 'aspect-square'

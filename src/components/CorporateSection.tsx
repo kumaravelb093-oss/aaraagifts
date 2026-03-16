@@ -49,7 +49,6 @@ const CorporateSection = () => {
                 const q = query(
                     collection(db, "products"),
                     where("category", "==", "Corporate Studio"),
-                    orderBy("createdAt", "desc"),
                     limit(4)
                 );
                 const querySnapshot = await getDocs(q);

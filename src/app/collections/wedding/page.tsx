@@ -26,8 +26,7 @@ export default function WeddingPage() {
             try {
                 const q = query(
                     collection(db, "products"),
-                    where("category", "==", "Wedding Return Gifts"),
-                    orderBy("createdAt", "desc")
+                    where("category", "==", "Wedding Return Gifts")
                 );
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {

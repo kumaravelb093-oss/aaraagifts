@@ -23,8 +23,7 @@ export default function ApparelPage() {
             try {
                 const q = query(
                     collection(db, "products"),
-                    where("category", "==", "Apparel & T-Shirts"),
-                    orderBy("createdAt", "desc")
+                    where("category", "==", "Apparel & T-Shirts")
                 );
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {

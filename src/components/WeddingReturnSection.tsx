@@ -20,7 +20,6 @@ const WeddingReturnSection = () => {
                 const q = query(
                     collection(db, "products"),
                     where("category", "==", "Wedding Return Gifts"),
-                    orderBy("createdAt", "desc"),
                     limit(6)
                 );
                 const querySnapshot = await getDocs(q);

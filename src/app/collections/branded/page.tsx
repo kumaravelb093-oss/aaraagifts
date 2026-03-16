@@ -19,8 +19,7 @@ export default function BrandedCollectionPage() {
             try {
                 const q = query(
                     collection(db, "products"),
-                    where("category", "==", "Branded Gift"),
-                    orderBy("createdAt", "desc")
+                    where("category", "==", "Branded Gift")
                 );
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {

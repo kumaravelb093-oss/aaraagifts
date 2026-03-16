@@ -40,7 +40,6 @@ const CollectionShowcase = () => {
                 const q = query(
                     collection(db, "products"),
                     where("category", "==", "Signature Hampers"),
-                    orderBy("createdAt", "desc"),
                     limit(4)
                 );
                 const querySnapshot = await getDocs(q);

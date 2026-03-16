@@ -31,7 +31,6 @@ const BrandedSection = () => {
                 const q = query(
                     collection(db, "products"),
                     where("category", "==", "Branded Gift"),
-                    orderBy("createdAt", "desc"),
                     limit(10)
                 );
                 const querySnapshot = await getDocs(q);

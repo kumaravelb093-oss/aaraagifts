@@ -23,8 +23,7 @@ export default function AwardPage() {
             try {
                 const q = query(
                     collection(db, "products"),
-                    where("category", "==", "Award Gifts"),
-                    orderBy("createdAt", "desc")
+                    where("category", "==", "Award Gifts")
                 );
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {

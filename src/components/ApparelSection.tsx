@@ -20,7 +20,6 @@ const ApparelSection = () => {
                 const q = query(
                     collection(db, "products"),
                     where("category", "==", "Apparel & T-Shirts"),
-                    orderBy("createdAt", "desc"),
                     limit(6)
                 );
                 const querySnapshot = await getDocs(q);

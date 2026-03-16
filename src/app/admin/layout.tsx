@@ -23,8 +23,6 @@ export default function AdminLayout({
     const navItems = [
         { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
         { name: 'Products', href: '/admin/products', icon: Package },
-        { name: 'Categories', href: '/admin/categories', icon: Layers },
-        { name: 'Sections', href: '/admin/sections', icon: Settings },
     ];
 
     return (
@@ -62,12 +60,6 @@ export default function AdminLayout({
                     ))}
                 </nav>
 
-                <div className="p-4 border-t border-gray-100">
-                    <button className="flex items-center w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all">
-                        <LogOut size={20} />
-                        {isSidebarOpen && <span className="ml-4 font-medium">Logout</span>}
-                    </button>
-                </div>
             </aside>
 
             {/* Main Content */}

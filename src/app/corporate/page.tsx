@@ -93,7 +93,7 @@ export default function CorporatePage() {
                                 transition={{ duration: 0.8, delay: 0.3 }}
                                 className="flex flex-wrap gap-4 justify-center lg:justify-start"
                             >
-                                <Link href="/contact" className="px-10 py-4 bg-brand-maroon text-white text-[10px] tracking-[0.3em] font-bold uppercase hover:bg-brand-copper transition-all duration-500">
+                                <Link href="/contact" className="px-10 py-4 bg-brand-orange text-white text-[10px] tracking-[0.3em] font-bold uppercase hover:bg-brand-copper transition-all duration-500">
                                     Get a Quote
                                 </Link>
                                 <a href="/aaraa-catalogue.pdf" target="_blank" rel="noopener noreferrer" className="px-10 py-4 border border-brand-brown/20 text-brand-brown text-[10px] tracking-[0.3em] font-bold uppercase hover:bg-brand-brown hover:text-white transition-all duration-500">
@@ -129,7 +129,7 @@ export default function CorporatePage() {
                 </div>
             </section>
 
-            <section className="bg-brand-maroon py-16">
+            <section className="bg-brand-orange py-16">
                 <div className="container mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                         {features.map((f, i) => (
@@ -168,8 +168,8 @@ export default function CorporatePage() {
                                 key={cat.id}
                                 onClick={() => setActiveFilter(cat.id)}
                                 className={`px-6 py-3 text-[10px] uppercase tracking-[0.2em] font-bold border transition-all duration-400 rounded-sm ${activeFilter === cat.id
-                                    ? "bg-brand-maroon text-white border-brand-maroon"
-                                    : "bg-transparent text-brand-brown/60 border-brand-brown/15 hover:border-brand-maroon hover:text-brand-maroon"
+                                    ? "bg-brand-orange text-white border-brand-orange"
+                                    : "bg-transparent text-brand-brown/60 border-brand-brown/15 hover:border-brand-orange hover:text-brand-orange"
                                     }`}
                             >
                                 {cat.label}
@@ -198,16 +198,16 @@ export default function CorporatePage() {
                                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                                                 unoptimized
                                             />
-                                            <div className="absolute inset-0 bg-brand-maroon/0 group-hover:bg-brand-maroon/20 transition-all duration-500" />
+                                            <div className="absolute inset-0 bg-brand-orange/0 group-hover:bg-brand-orange/20 transition-all duration-500" />
 
                                             {product.tag && (
-                                                <span className="absolute top-4 left-4 px-3 py-1.5 bg-white/90 backdrop-blur-sm text-[8px] uppercase tracking-[0.2em] font-bold text-brand-maroon rounded-sm">
+                                                <span className="absolute top-4 left-4 px-3 py-1.5 bg-white/90 backdrop-blur-sm text-[8px] uppercase tracking-[0.2em] font-bold text-brand-orange rounded-sm">
                                                     {product.tag}
                                                 </span>
                                             )}
 
                                             <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                                                <div className="w-full flex items-center justify-center gap-2 py-3 bg-white/95 backdrop-blur-sm text-[9px] uppercase tracking-[0.2em] font-bold text-brand-maroon hover:bg-brand-maroon hover:text-white transition-all duration-300 rounded-sm">
+                                                <div className="w-full flex items-center justify-center gap-2 py-3 bg-white/95 backdrop-blur-sm text-[9px] uppercase tracking-[0.2em] font-bold text-brand-orange hover:bg-brand-orange hover:text-white transition-all duration-300 rounded-sm">
                                                     View Details <ChevronRight size={12} />
                                                 </div>
                                             </div>
@@ -215,7 +215,7 @@ export default function CorporatePage() {
                                     </Link>
                                     <div className="flex justify-between items-start mb-1 px-1">
                                         <Link href={`/products/${product.id}`} className="flex-1">
-                                            <h3 className="text-sm font-serif text-brand-brown group-hover:text-brand-maroon transition-colors">{product.title}</h3>
+                                            <h3 className="text-sm font-serif text-brand-brown group-hover:text-brand-orange transition-colors">{product.title}</h3>
                                         </Link>
                                     </div>
                                     <div className="flex justify-between items-center px-1">
@@ -227,7 +227,7 @@ export default function CorporatePage() {
                                             }}
                                             className={`p-2 rounded-full transition-all transform hover:scale-110 shadow-sm ${addedId === product.id
                                                 ? "bg-brand-gold text-white"
-                                                : "bg-brand-maroon/5 text-brand-maroon hover:bg-brand-maroon hover:text-white"}`}
+                                                : "bg-brand-orange/5 text-brand-orange hover:bg-brand-orange hover:text-white"}`}
                                         >
                                             {addedId === product.id ? <Check size={14} /> : <ShoppingBag size={14} />}
                                         </button>
@@ -295,7 +295,7 @@ export default function CorporatePage() {
                         Get in touch for volume pricing and branding mockups.
                     </p>
                     <div className="flex justify-center flex-wrap gap-6">
-                        <Link href="/contact" className="group px-12 py-5 bg-brand-maroon text-white uppercase text-xs tracking-[0.3em] font-bold hover:bg-brand-copper transition-all duration-500 flex items-center gap-3">
+                        <Link href="/contact" className="group px-12 py-5 bg-brand-orange text-white uppercase text-xs tracking-[0.3em] font-bold hover:bg-brand-copper transition-all duration-500 flex items-center gap-3">
                             Inquire for Bulk
                             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                         </Link>

@@ -101,7 +101,7 @@ export default function AwardPage() {
                                         onClick={() => handleAddToCart(product)}
                                         className={`w-full py-4 text-[10px] uppercase font-bold tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl ${addedId === product.id
                                             ? "bg-brand-gold text-white"
-                                            : "bg-brand-maroon text-white hover:bg-brown-800"}`}
+                                            : "bg-brand-orange text-white hover:bg-brown-800"}`}
                                     >
                                         {addedId === product.id ? (
                                             <>
@@ -118,7 +118,7 @@ export default function AwardPage() {
                                 </div>
                             </div>
                             <Link href={`/products/${product.id}`}>
-                                <h3 className="text-3xl font-serif text-brand-brown mb-3 tracking-tight group-hover:text-brand-maroon transition-colors">{product.title}</h3>
+                                <h3 className="text-3xl font-serif text-brand-brown mb-3 tracking-tight group-hover:text-brand-orange transition-colors">{product.title}</h3>
                             </Link>
                         </motion.div>
                     ))}

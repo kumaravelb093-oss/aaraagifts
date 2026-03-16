@@ -36,14 +36,14 @@ const WeddingReturnSection = () => {
                             <span className="w-12 h-[1px] bg-brand-gold"></span>
                             <span className="text-[10px] uppercase tracking-[0.6em] text-brand-gold font-bold">Heritage Tokens</span>
                         </div>
-                        <h2 className="text-6xl md:text-9xl font-serif text-brand-maroon leading-none tracking-tighter mb-8">
+                        <h2 className="text-6xl md:text-9xl font-serif text-brand-orange leading-none tracking-tighter mb-8">
                             Wedding <br />
                             <span className="italic font-light text-brand-espresso opacity-60">Return Gifts.</span>
                         </h2>
                     </div>
                     <Link
                         href="/collections/wedding"
-                        className="mt-8 lg:mt-0 flex items-center gap-4 group px-10 py-6 bg-white rounded-full hover:bg-brand-maroon transition-all duration-500"
+                        className="mt-8 lg:mt-0 flex items-center gap-4 group px-10 py-6 bg-white rounded-full hover:bg-brand-orange transition-all duration-500"
                     >
                         <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-espresso group-hover:text-white transition-colors">View All Collections</span>
                         <ArrowRight className="text-brand-gold group-hover:text-white group-hover:translate-x-2 transition-all" size={20} />
@@ -78,7 +78,7 @@ const WeddingReturnSection = () => {
                                         onClick={() => handleAddToCart(product)}
                                         className={`w-full py-4 text-[10px] uppercase font-bold tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl ${addedId === product.id
                                             ? "bg-brand-gold text-white"
-                                            : "bg-brand-maroon text-white hover:bg-brown-800"}`}
+                                            : "bg-brand-orange text-white hover:bg-brown-800"}`}
                                     >
                                         {addedId === product.id ? (
                                             <>
@@ -100,7 +100,7 @@ const WeddingReturnSection = () => {
                                     </Link>
                                 </div>
                             </div>
-                            <h3 className="text-3xl font-serif text-brand-espresso mb-3 tracking-tight group-hover:text-brand-maroon transition-colors">{product.title}</h3>
+                            <h3 className="text-3xl font-serif text-brand-espresso mb-3 tracking-tight group-hover:text-brand-orange transition-colors">{product.title}</h3>
                             <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold">{product.subtitle}</p>
                         </motion.div>
                     ))}

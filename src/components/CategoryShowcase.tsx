@@ -47,7 +47,7 @@ const CategoryShowcase = () => {
                             <StarIcon />
                             <span className="text-[10px] uppercase tracking-[0.5em] text-brand-gold font-bold">The Curated Series</span>
                         </div>
-                        <h2 className="text-5xl md:text-8xl font-serif text-brand-maroon leading-none tracking-tighter">
+                        <h2 className="text-5xl md:text-8xl font-serif text-brand-orange leading-none tracking-tighter">
                             Explore <br />
                             <span className="italic font-light text-stroke opacity-60">The Collections</span>
                         </h2>
@@ -74,7 +74,7 @@ const CategoryShowcase = () => {
                                 />
 
                                 {/* Overlay Content */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-brand-maroon/90 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-brand-orange/90 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700" />
 
                                 <div className="absolute inset-0 p-10 flex flex-col justify-end">
                                     <div className="overflow-hidden mb-4">
@@ -88,7 +88,7 @@ const CategoryShowcase = () => {
 
                                     <div className="flex items-center justify-between">
                                         <span className="text-[9px] uppercase tracking-[0.4em] text-brand-gold font-bold">Discover More</span>
-                                        <div className="w-10 h-10 rounded-full border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-brand-maroon transition-all duration-500">
+                                        <div className="w-10 h-10 rounded-full border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-brand-orange transition-all duration-500">
                                             <ArrowUpRight size={18} />
                                         </div>
                                     </div>

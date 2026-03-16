@@ -80,7 +80,7 @@ const Navbar = () => {
     ];
 
     return (
-        <header className="sticky top-0 left-0 right-0 z-[100] w-full bg-brand-maroon border-b border-white/5">
+        <header className="sticky top-0 left-0 right-0 z-[100] w-full bg-brand-orange border-b border-white/5">
             {/* Announcement Bar */}
             <div className="bg-brand-brown/90 text-white py-1 overflow-hidden h-7 flex items-center border-b border-white/5">
                 <div className="flex whitespace-nowrap animate-marquee">
@@ -207,7 +207,7 @@ const Navbar = () => {
                                     <motion.span
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
-                                        className="absolute -top-1.5 -right-1.5 bg-brand-gold text-brand-brown text-[7px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center border border-brand-maroon"
+                                        className="absolute -top-1.5 -right-1.5 bg-brand-gold text-brand-brown text-[7px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center border border-brand-orange"
                                     >
                                         {cartCount}
                                     </motion.span>

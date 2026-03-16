@@ -107,7 +107,7 @@ const ProductPage = () => {
                             />
 
                             <div className="absolute bottom-10 left-10">
-                                <span className="px-4 py-2 bg-brand-maroon text-white text-[9px] uppercase tracking-[0.3em] font-black rounded-full shadow-2xl">
+                                <span className="px-4 py-2 bg-brand-orange text-white text-[9px] uppercase tracking-[0.3em] font-black rounded-full shadow-2xl">
                                     {product.tag || 'Aaraa Studio'}
                                 </span>
                             </div>
@@ -147,7 +147,7 @@ const ProductPage = () => {
                         <div className="flex flex-col gap-4 mb-20 w-full max-w-md">
                             <button
                                 onClick={handleAddToCart}
-                                className="w-full py-5 bg-brand-brown text-white text-[11px] uppercase tracking-[0.4em] font-black hover:bg-brand-maroon transition-all flex items-center justify-center gap-4 group shadow-xl relative overflow-hidden"
+                                className="w-full py-5 bg-brand-brown text-white text-[11px] uppercase tracking-[0.4em] font-black hover:bg-brand-orange transition-all flex items-center justify-center gap-4 group shadow-xl relative overflow-hidden"
                             >
                                 <AnimatePresence mode="wait">
                                     {isAdded ? (
@@ -226,7 +226,7 @@ const ProductPage = () => {
                                     <button
                                         disabled={formStatus === 'sending'}
                                         type="submit"
-                                        className="w-full py-5 bg-brand-maroon text-white text-[10px] uppercase font-black tracking-[0.3em] flex items-center justify-center gap-4 hover:bg-brand-brown transition-all rounded-full group shadow-lg disabled:opacity-50"
+                                        className="w-full py-5 bg-brand-orange text-white text-[10px] uppercase font-black tracking-[0.3em] flex items-center justify-center gap-4 hover:bg-brand-brown transition-all rounded-full group shadow-lg disabled:opacity-50"
                                     >
                                         {formStatus === 'sending' ? 'Transmitting...' : 'Submit Request'}
                                         <Send size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

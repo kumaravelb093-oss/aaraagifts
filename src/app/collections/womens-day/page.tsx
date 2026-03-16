@@ -103,7 +103,7 @@ export default function WomensDayPage() {
                                         onClick={() => handleAddToCart(product)}
                                         className={`w-full py-4 text-[10px] uppercase font-bold tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl ${addedId === product.id
                                             ? "bg-brand-gold text-white"
-                                            : "bg-brand-maroon text-white hover:bg-brand-brown"}`}
+                                            : "bg-brand-orange text-white hover:bg-brand-brown"}`}
                                     >
                                         {addedId === product.id ? (
                                             <>

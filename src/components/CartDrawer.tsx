@@ -75,7 +75,7 @@ const CartDrawer = () => {
                                                     <h3 className="text-xs font-black text-brand-brown uppercase tracking-widest leading-tight">{item.title}</h3>
                                                     <button
                                                         onClick={() => removeFromCart(item.id)}
-                                                        className="text-brand-brown/20 hover:text-brand-maroon transition-colors"
+                                                        className="text-brand-brown/20 hover:text-brand-orange transition-colors"
                                                     >
                                                         <Trash2 size={14} />
                                                     </button>
@@ -111,7 +111,7 @@ const CartDrawer = () => {
                                     <p className="text-xs text-brand-brown/40 uppercase tracking-widest mb-8">Let's find something extraordinary</p>
                                     <button
                                         onClick={() => setIsCartOpen(false)}
-                                        className="px-8 py-4 bg-brand-brown text-white text-[10px] font-bold uppercase tracking-widest hover:bg-brand-maroon transition-all shadow-xl"
+                                        className="px-8 py-4 bg-brand-brown text-white text-[10px] font-bold uppercase tracking-widest hover:bg-brand-orange transition-all shadow-xl"
                                     >
                                         Start Gifting
                                     </button>

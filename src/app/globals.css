@@ -22,7 +22,7 @@
   --copper: #C67139;
   --elephant: #121212;
   --rosegold: #F4D7D3;
-  --maroon: #83321e;
+  --orange: #FF6B00;
   --gold: #D4AF37;
 }
 
@@ -36,7 +36,7 @@
   --color-brand-copper: #C67139;
   --color-brand-elephant: #121212;
   --color-brand-rosegold: #F4D7D3;
-  --color-brand-maroon: #83321e;
+  --color-brand-orange: #FF6B00;
   --color-brand-gold: #D4AF37;
 
   --font-serif: var(--font-playfair);
@@ -66,8 +66,8 @@ h4,
   border: 1px solid rgba(193, 154, 107, 0.15);
 }
 
-.glass-maroon {
-  background: rgba(131, 50, 30, 0.9);
+.glass-orange {
+  background: rgba(255, 107, 0, 0.9);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(212, 175, 55, 0.2);
 }
@@ -101,7 +101,7 @@ h4,
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
 }
 
-/* Custom Scrollbar - Rich Maroon */
+/* Custom Scrollbar - Vibrant Orange */
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -111,7 +111,7 @@ h4,
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #83321e;
+  background: #FF6B00;
   border-radius: 10px;
 }
 

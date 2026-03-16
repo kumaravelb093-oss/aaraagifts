@@ -41,7 +41,7 @@ const CollectionShowcase = () => {
                         </div>
                         <h2 className="text-6xl md:text-9xl font-serif text-brand-espresso leading-none tracking-tighter">
                             Signature <br />
-                            <span className="italic font-light text-brand-maroon opacity-60">Hampers.</span>
+                            <span className="italic font-light text-brand-orange opacity-60">Hampers.</span>
                         </h2>
                     </div>
                 </div>

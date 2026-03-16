@@ -55,7 +55,7 @@ export default function BrandedCollectionPage() {
                             <Sparkles className="text-brand-gold w-4 h-4" />
                             <span className="text-[10px] uppercase tracking-[0.5em] text-brand-gold font-bold">The Elite Collection</span>
                         </div>
-                        <h1 className="text-6xl md:text-8xl font-serif text-brand-maroon leading-none tracking-tighter mb-8">
+                        <h1 className="text-6xl md:text-8xl font-serif text-brand-orange leading-none tracking-tighter mb-8">
                             Branded <span className="italic font-light">Gifts</span>
                         </h1>
                         <p className="text-sm md:text-base text-brand-brown/60 max-w-2xl mx-auto font-medium leading-relaxed uppercase tracking-widest">
@@ -72,18 +72,18 @@ export default function BrandedCollectionPage() {
                                         alt={product.title}
                                         className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
                                     />
-                                    <div className="absolute top-6 left-6 px-4 py-2 bg-white/90 backdrop-blur-sm text-[8px] uppercase tracking-[0.3em] font-bold text-brand-maroon border border-brand-gold/20">
+                                    <div className="absolute top-6 left-6 px-4 py-2 bg-white/90 backdrop-blur-sm text-[8px] uppercase tracking-[0.3em] font-bold text-brand-orange border border-brand-gold/20">
                                         {product.tag}
                                     </div>
                                 </div>
                                 <div className="text-center px-4">
                                     <div className="h-[1px] w-8 bg-brand-gold/30 mx-auto mb-6 group-hover:w-20 transition-all duration-700" />
-                                    <h3 className="text-2xl font-serif text-brand-maroon mb-2 tracking-tight">{product.title}</h3>
-                                    <p className="text-[9px] uppercase tracking-[0.2em] text-brand-maroon/50 font-medium mb-4">{product.subtitle}</p>
+                                    <h3 className="text-2xl font-serif text-brand-orange mb-2 tracking-tight">{product.title}</h3>
+                                    <p className="text-[9px] uppercase tracking-[0.2em] text-brand-orange/50 font-medium mb-4">{product.subtitle}</p>
                                     <p className="text-[11px] text-brand-brown/70 leading-relaxed mb-8 h-12 overflow-hidden line-clamp-3 uppercase tracking-widest font-bold">
                                         {product.description}
                                     </p>
-                                    <button className="px-8 py-4 border border-brand-maroon/10 text-[9px] tracking-[0.4em] uppercase font-bold text-brand-maroon hover:bg-brand-maroon hover:text-white transition-all duration-500">
+                                    <button className="px-8 py-4 border border-brand-orange/10 text-[9px] tracking-[0.4em] uppercase font-bold text-brand-orange hover:bg-brand-orange hover:text-white transition-all duration-500">
                                         Inquire Now
                                     </button>
                                 </div>

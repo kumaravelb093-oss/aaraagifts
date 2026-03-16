@@ -80,9 +80,10 @@ const BrandedSection = () => {
                         </motion.div>
                         <h2 className="text-6xl md:text-9xl font-serif text-brand-espresso leading-none tracking-tighter">
                             Branded <br />
-                            <span className="italic font-light text-brand-maroon">Masterpieces.</span>
+                            <span className="italic font-light text-brand-orange">Masterpieces.</span>
                         </h2>
                     </div>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-px bg-brand-espresso/5 border border-brand-espresso/5">
                     {brandedProducts.map((item: any, i: number) => (

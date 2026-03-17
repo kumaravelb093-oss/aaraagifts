@@ -7,6 +7,7 @@ export interface Product {
     category: string;
     tag?: string;
     href: string;
+    specifications?: { label: string; value: string }[];
 }
 
 export const allProducts: Product[] = [

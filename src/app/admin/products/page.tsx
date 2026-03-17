@@ -29,6 +29,7 @@ interface Product {
     price?: string;
     createdAt?: any;
     isStatic?: boolean;
+    specifications?: { label: string; value: string }[];
 }
 
 export default function ProductsPage() {

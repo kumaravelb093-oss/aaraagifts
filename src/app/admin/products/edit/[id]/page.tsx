@@ -15,7 +15,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { db } from '@/lib/firebase';
-import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { allProducts } from '@/data/products';
 import ImageUploader from '@/components/admin/ImageUploader';
 import SpecField from '@/components/admin/SpecField';
 
@@ -75,7 +76,21 @@ export default function EditProductPage({ params }: PageProps) {
                     });
                     setSpecs(data.specifications || []);
                 } else {
-                    setSaveError('Product not found.');
+                    // Fallback to static products
+                    const staticProduct = allProducts.find(p => p.id === id);
+                    if (staticProduct) {
+                        setFormData({
+                            title: staticProduct.title || '',
+                            subtitle: staticProduct.subtitle || '',
+                            description: staticProduct.description || '',
+                            category: staticProduct.category || 'Wedding Return Gifts',
+                            img: staticProduct.img || '',
+                            tag: staticProduct.tag || '',
+                        });
+                        setSpecs(staticProduct.specifications || []);
+                    } else {
+                        setSaveError('Product not found in database or static catalog.');
+                    }
                 }
             } catch (error: any) {
                 console.error('Error fetching product:', error);
@@ -102,11 +117,12 @@ export default function EditProductPage({ params }: PageProps) {
 
         try {
             const docRef = doc(db, 'products', id);
-            await updateDoc(docRef, {
+            await setDoc(docRef, {
                 ...formData,
+                id: id, // Ensure ID is preserved
                 specifications: specs,
                 updatedAt: serverTimestamp(),
-            });
+            }, { merge: true });
             setSaveSuccess(true);
             setTimeout(() => {
                 router.push('/admin/products');
@@ -145,7 +161,7 @@ export default function EditProductPage({ params }: PageProps) {
                     </Link>
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900">Edit Product</h2>
-                        <p className="text-gray-500 text-sm">Modify item details in your gift collection</p>
+                        <p className="text-gray-500 text-xs font-mono mt-1">PRODUCT ID: {id.toUpperCase()}</p>
                     </div>
                 </div>
             </div>

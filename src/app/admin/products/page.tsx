@@ -12,7 +12,9 @@ import {
     ChevronLeft,
     ChevronRight,
     Package,
-    AlertCircle
+    AlertCircle,
+    Copy,
+    Eye
 } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
@@ -70,8 +72,13 @@ export default function ProductsPage() {
                 isStatic: true
             }));
 
-            // Combine them
-            setProducts([...firestoreItems, ...staticItems]);
+            // Combine them with deduplication (Firestore versions override static ones)
+            const combinedMap = new Map<string, Product>();
+            
+            staticItems.forEach(item => combinedMap.set(item.id, item));
+            firestoreItems.forEach(item => combinedMap.set(item.id, item));
+
+            setProducts(Array.from(combinedMap.values()));
         } catch (error) {
             console.error('Error fetching products:', error);
         } finally {
@@ -215,49 +222,52 @@ export default function ProductsPage() {
                                                 <div className="relative">
                                                     <button 
                                                         onClick={() => setActiveMenuId(activeMenuId === product.id ? null : product.id)}
-                                                        className={`p-2 rounded-lg transition-all ${activeMenuId === product.id ? 'bg-gray-100 text-gray-900' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-100'}`}
+                                                        className={`p-2 rounded-lg transition-all ${activeMenuId === product.id ? 'bg-blue-50 text-blue-600' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-100'}`}
                                                     >
                                                         <MoreVertical size={18} />
                                                     </button>
                                                     
                                                     {activeMenuId === product.id && (
-                                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                                        <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                                            <div className="px-4 py-2 border-b border-gray-50 mb-1">
+                                                                <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-1">Product ID</p>
+                                                                <p className="text-xs font-mono text-gray-800 break-all select-all font-semibold uppercase">{product.id}</p>
+                                                            </div>
+
                                                             <Link 
-                                                                href={product.isStatic ? `/products/${product.id}` : `/products/${product.id}`}
+                                                                href={`/products/${product.id}`}
                                                                 target="_blank"
-                                                                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                                                className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors group/item"
                                                             >
-                                                                <ExternalLink size={16} className="mr-3 text-gray-400" />
+                                                                <Eye size={16} className="mr-3 text-gray-400 group-hover/item:text-blue-600" />
                                                                 View on Site
                                                             </Link>
-                                                            {!product.isStatic && (
-                                                                <Link 
-                                                                    href={`/admin/products/edit/${product.id}`}
-                                                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                                                                >
-                                                                    <Edit2 size={16} className="mr-3 text-gray-400" />
-                                                                    Edit Details
-                                                                </Link>
-                                                            )}
+                                                            
+                                                            <Link 
+                                                                href={`/admin/products/edit/${product.id}`}
+                                                                className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors group/item"
+                                                            >
+                                                                <Edit2 size={16} className="mr-3 text-gray-400 group-hover/item:text-blue-600" />
+                                                                Edit Details
+                                                            </Link>
+                                                            
                                                             <button 
                                                                 onClick={() => copyToClipboard(product.id)}
-                                                                className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                                                className="flex items-center w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors group/item"
                                                             >
-                                                                <AlertCircle size={16} className="mr-3 text-gray-400" />
-                                                                Copy Product ID
+                                                                <Copy size={16} className="mr-3 text-gray-400 group-hover/item:text-blue-600" />
+                                                                Copy ID
                                                             </button>
-                                                            {!product.isStatic && (
-                                                                <>
-                                                                    <div className="h-px bg-gray-100 my-1"></div>
-                                                                    <button 
-                                                                        onClick={() => handleDelete(product.id)}
-                                                                        className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium"
-                                                                    >
-                                                                        <Trash2 size={16} className="mr-3 text-red-400" />
-                                                                        Delete Product
-                                                                    </button>
-                                                                </>
-                                                            )}
+
+                                                            <div className="h-px bg-gray-100 my-1"></div>
+                                                            
+                                                            <button 
+                                                                onClick={() => handleDelete(product.id)}
+                                                                className="flex items-center w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors font-semibold group/item"
+                                                            >
+                                                                <Trash2 size={16} className="mr-3 text-red-400 group-hover/item:text-red-600" />
+                                                                Delete Product
+                                                            </button>
                                                         </div>
                                                     )}
                                                 </div>

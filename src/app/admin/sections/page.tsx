@@ -10,7 +10,8 @@ import {
     MoveDown,
     Eye,
     EyeOff,
-    Edit3
+    Edit3,
+    MoreVertical
 } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
@@ -30,6 +31,7 @@ export default function SectionsPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
     const [editingSection, setEditingSection] = useState<Section | null>(null);
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
     const [newSection, setNewSection] = useState({ title: '', type: 'Quick Category', imageUrl: '', href: '' });
 
     useEffect(() => {
@@ -75,6 +77,7 @@ export default function SectionsPage() {
         try {
             await deleteDoc(doc(db, 'sections', id));
             setSections(sections.filter(s => s.id !== id));
+            setActiveMenuId(null);
         } catch (error) {
             console.error('Error deleting section:', error);
         }
@@ -227,11 +230,6 @@ export default function SectionsPage() {
                     <div className="divide-y divide-gray-50">
                         {sections.map((section, index) => (
                             <div key={section.id} className="p-6 flex items-center group hover:bg-gray-50/50 transition-colors">
-                                <div className="flex flex-col mr-6 space-y-1">
-                                    <button onClick={() => moveOrder(index, 'up')} className="text-gray-300 hover:text-blue-500"><MoveUp size={16} /></button>
-                                    <button onClick={() => moveOrder(index, 'down')} className="text-gray-300 hover:text-blue-500"><MoveDown size={16} /></button>
-                                </div>
-
                                 <div className={`p-3 rounded-2xl mr-4 ${section.isActive ? 'bg-green-50 text-green-600' : 'bg-gray-50 text-gray-400'}`}>
                                     <Layout size={24} />
                                 </div>
@@ -247,25 +245,79 @@ export default function SectionsPage() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button
-                                        onClick={() => toggleStatus(section.id, section.isActive)}
-                                        className={`p-2 rounded-lg transition-all ${section.isActive ? 'text-gray-400 hover:text-gray-600 hover:bg-gray-100' : 'text-green-500 hover:bg-green-50'}`}
-                                    >
-                                        {section.isActive ? <Eye size={20} /> : <EyeOff size={20} />}
-                                    </button>
-                                    <button 
-                                        onClick={() => setEditingSection(section)}
-                                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                                    >
-                                        <Edit3 size={20} />
-                                    </button>
-                                    <button 
-                                        onClick={() => handleDelete(section.id)}
-                                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                                    >
-                                        <Trash2 size={20} />
-                                    </button>
+                                <div className="flex items-center space-x-3">
+                                    <div className="flex flex-row space-x-1">
+                                        <button 
+                                            onClick={() => moveOrder(index, 'up')} 
+                                            disabled={index === 0}
+                                            className="p-1.5 text-gray-300 hover:text-blue-500 hover:bg-blue-50 rounded disabled:opacity-30 disabled:hover:bg-transparent"
+                                            title="Move Up"
+                                        >
+                                            <MoveUp size={16} />
+                                        </button>
+                                        <button 
+                                            onClick={() => moveOrder(index, 'down')} 
+                                            disabled={index === sections.length - 1}
+                                            className="p-1.5 text-gray-300 hover:text-blue-500 hover:bg-blue-50 rounded disabled:opacity-30 disabled:hover:bg-transparent"
+                                            title="Move Down"
+                                        >
+                                            <MoveDown size={16} />
+                                        </button>
+                                    </div>
+
+                                    <div className="relative">
+                                        <button 
+                                            onClick={() => setActiveMenuId(activeMenuId === section.id ? null : section.id)}
+                                            className={`p-2 rounded-lg transition-all ${activeMenuId === section.id ? 'bg-green-50 text-green-600' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-100'}`}
+                                        >
+                                            <MoreVertical size={20} />
+                                        </button>
+                                        
+                                        {activeMenuId === section.id && (
+                                            <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                                <button 
+                                                    onClick={() => {
+                                                        toggleStatus(section.id, section.isActive);
+                                                        setActiveMenuId(null);
+                                                    }}
+                                                    className={`flex items-center w-full text-left px-4 py-2.5 text-sm transition-colors group/item ${section.isActive ? 'text-gray-700 hover:bg-gray-50' : 'text-green-600 hover:bg-green-50'}`}
+                                                >
+                                                    {section.isActive ? (
+                                                        <>
+                                                            <EyeOff size={16} className="mr-3 text-gray-400 group-hover/item:text-gray-600" />
+                                                            Hide Section
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Eye size={16} className="mr-3 text-green-500 group-hover/item:text-green-600" />
+                                                            Make Live
+                                                        </>
+                                                    )}
+                                                </button>
+                                                
+                                                <button 
+                                                    onClick={() => {
+                                                        setEditingSection(section);
+                                                        setActiveMenuId(null);
+                                                    }}
+                                                    className="flex items-center w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors group/item"
+                                                >
+                                                    <Edit3 size={16} className="mr-3 text-gray-400 group-hover/item:text-blue-600" />
+                                                    Edit Content
+                                                </button>
+
+                                                <div className="h-px bg-gray-100 my-1"></div>
+                                                
+                                                <button 
+                                                    onClick={() => handleDelete(section.id)}
+                                                    className="flex items-center w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors font-semibold group/item"
+                                                >
+                                                    <Trash2 size={16} className="mr-3 text-red-400 group-hover/item:text-red-600" />
+                                                    Delete Section
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         ))}

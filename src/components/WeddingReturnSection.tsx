@@ -45,8 +45,8 @@ const WeddingReturnSection = () => {
                         href="/collections/wedding"
                         className="mt-8 lg:mt-0 flex items-center gap-4 group px-10 py-6 bg-white rounded-full hover:bg-brand-orange transition-all duration-500"
                     >
-                        <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-espresso group-hover:text-white transition-colors">View All Collections</span>
-                        <ArrowRight className="text-brand-gold group-hover:text-white group-hover:translate-x-2 transition-all" size={20} />
+                        <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-brand-espresso group-hover:text-black transition-colors">View All Collections</span>
+                        <ArrowRight className="text-brand-gold group-hover:text-black group-hover:translate-x-2 transition-all" size={20} />
                     </Link>
                 </div>
 
@@ -77,8 +77,8 @@ const WeddingReturnSection = () => {
                                     <button
                                         onClick={() => handleAddToCart(product)}
                                         className={`w-full py-4 text-[10px] uppercase font-bold tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl ${addedId === product.id
-                                            ? "bg-brand-gold text-white"
-                                            : "bg-brand-orange text-white hover:bg-brown-800"}`}
+                                            ? "bg-brand-gold text-brand-espresso"
+                                            : "bg-brand-orange text-brand-espresso font-black hover:bg-brown-800"}`}
                                     >
                                         {addedId === product.id ? (
                                             <>

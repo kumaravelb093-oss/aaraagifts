@@ -80,7 +80,7 @@ const Navbar = () => {
     ];
 
     return (
-        <header className="sticky top-0 left-0 right-0 z-[100] w-full bg-brand-orange border-b border-white/5">
+        <header className="sticky top-0 left-0 right-0 z-[100] w-full bg-brand-orange border-b border-black/5">
             {/* Announcement Bar */}
             <div className="bg-brand-brown/90 text-white py-1 overflow-hidden h-7 flex items-center border-b border-white/5">
                 <div className="flex whitespace-nowrap animate-marquee">
@@ -99,7 +99,7 @@ const Navbar = () => {
 
                     {/* Left: Collections Shortcut (Optional/Decorative) */}
                     <div className="flex items-center">
-                        <Link href="/collections" className="text-[9px] font-bold text-white/40 hover:text-brand-gold tracking-[0.2em] transition-all uppercase flex items-center gap-2 group">
+                        <Link href="/collections" className="text-[9px] font-bold text-brand-espresso/60 hover:text-black tracking-[0.2em] transition-all uppercase flex items-center gap-2 group">
                             <LayoutGrid size={10} className="group-hover:rotate-90 transition-transform duration-500" />
                             Collections
                         </Link>
@@ -120,8 +120,8 @@ const Navbar = () => {
                                 />
                                 {logoError && (
                                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                                        <span className="text-xl font-serif font-bold tracking-widest leading-none text-white">AARAA</span>
-                                        <span className="text-[6px] uppercase tracking-[0.4em] font-bold text-brand-gold">Aaraa Studio</span>
+                                        <span className="text-xl font-serif font-bold tracking-widest leading-none text-brand-espresso">AARAA</span>
+                                        <span className="text-[6px] uppercase tracking-[0.4em] font-bold text-brand-espresso/60">Aaraa Studio</span>
                                     </div>
                                 )}
                             </div>
@@ -129,7 +129,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Right: Icons (Search, Cart, Menu) */}
-                    <div className="flex items-center justify-end space-x-6 lg:space-x-8 text-white">
+                    <div className="flex items-center justify-end space-x-6 lg:space-x-8 text-brand-espresso">
                         {/* Search Icon & Box */}
                         <div className="relative" ref={searchRef}>
                             <button
@@ -236,11 +236,11 @@ const Navbar = () => {
                         >
                             <Link
                                 href={link.href}
-                                className="text-[9px] font-extrabold text-white/80 hover:text-brand-gold tracking-[0.2em] transition-all relative block py-1 uppercase"
+                                className="text-[9px] font-extrabold text-brand-espresso hover:text-black tracking-[0.2em] transition-all relative block py-1 uppercase"
                             >
                                 {link.name}
                                 {activeSubmenu === i && (
-                                    <motion.div layoutId="underline" className="absolute -bottom-0.5 left-0 w-full h-[1px] bg-brand-gold" />
+                                    <motion.div layoutId="underline" className="absolute -bottom-0.5 left-0 w-full h-[1.5px] bg-brand-espresso" />
                                 )}
                             </Link>
 

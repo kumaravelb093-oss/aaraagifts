@@ -82,7 +82,7 @@ const CorporateSection = () => {
                         <div className="flex flex-wrap gap-4">
                             <Link
                                 href="/corporate"
-                                className="px-10 py-4 bg-brand-orange text-white text-[10px] tracking-[0.3em] font-bold uppercase hover:bg-brand-copper transition-all duration-500 inline-block"
+                                className="px-10 py-4 bg-brand-orange text-black text-[10px] tracking-[0.3em] font-black uppercase hover:bg-brand-copper transition-all duration-500 inline-block"
                             >
                                 Explore Collection
                             </Link>

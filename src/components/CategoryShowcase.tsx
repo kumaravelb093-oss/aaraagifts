@@ -78,17 +78,17 @@ const CategoryShowcase = () => {
 
                                 <div className="absolute inset-0 p-10 flex flex-col justify-end">
                                     <div className="overflow-hidden mb-4">
-                                        <motion.h3 className="text-3xl md:text-4xl font-serif text-white transition-transform duration-700 group-hover:-translate-y-2">
+                                        <motion.h3 className="text-3xl md:text-4xl font-serif text-black transition-transform duration-700 group-hover:-translate-y-2">
                                             {cat.title}
                                         </motion.h3>
                                     </div>
-                                    <p className="text-white/60 text-sm font-light mb-8 max-w-xs transition-opacity duration-700 opacity-0 group-hover:opacity-100">
+                                    <p className="text-black/80 text-sm font-bold mb-8 max-w-xs transition-opacity duration-700 opacity-0 group-hover:opacity-100">
                                         {cat.desc}
                                     </p>
 
                                     <div className="flex items-center justify-between">
-                                        <span className="text-[9px] uppercase tracking-[0.4em] text-brand-gold font-bold">Discover More</span>
-                                        <div className="w-10 h-10 rounded-full border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-brand-orange transition-all duration-500">
+                                        <span className="text-[9px] uppercase tracking-[0.4em] text-black font-black">Discover More</span>
+                                        <div className="w-10 h-10 rounded-full border border-black/30 flex items-center justify-center text-black group-hover:bg-black group-hover:text-brand-orange transition-all duration-500">
                                             <ArrowUpRight size={18} />
                                         </div>
                                     </div>

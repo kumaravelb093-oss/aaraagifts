@@ -95,7 +95,7 @@ const Hero = () => {
                                 </p>
 
                                 <div className="flex flex-wrap gap-8 items-center">
-                                    <button className="relative group px-16 py-6 bg-brand-orange text-white text-[10px] tracking-[0.4em] uppercase font-bold overflow-hidden transition-all duration-500">
+                                    <button className="relative group px-16 py-6 bg-brand-orange text-brand-espresso text-[10px] tracking-[0.4em] uppercase font-black overflow-hidden transition-all duration-500">
                                         <span className="relative z-10 flex items-center gap-4">
                                             The Studio Selection
                                             <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-500" />
@@ -104,11 +104,11 @@ const Hero = () => {
                                     </button>
 
                                     <div className="flex gap-4 items-center">
-                                        <button onClick={prevSlide} className="w-14 h-14 rounded-full border border-brand-orange/10 flex items-center justify-center text-brand-orange hover:bg-brand-orange hover:text-white transition-all duration-500">
+                                        <button onClick={prevSlide} className="w-14 h-14 rounded-full border border-brand-orange/20 flex items-center justify-center text-brand-orange hover:bg-brand-orange hover:text-brand-espresso transition-all duration-500">
                                             <ChevronLeft size={24} />
                                         </button>
                                         <span className="text-[10px] font-bold text-brand-gold tracking-widest">0{current + 1} / 0{slides.length}</span>
-                                        <button onClick={nextSlide} className="w-14 h-14 rounded-full border border-brand-orange/10 flex items-center justify-center text-brand-orange hover:bg-brand-orange hover:text-white transition-all duration-500">
+                                        <button onClick={nextSlide} className="w-14 h-14 rounded-full border border-brand-orange/20 flex items-center justify-center text-brand-orange hover:bg-brand-orange hover:text-brand-espresso transition-all duration-500">
                                             <ChevronRight size={24} />
                                         </button>
                                     </div>

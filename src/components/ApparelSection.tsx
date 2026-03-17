@@ -80,9 +80,9 @@ const ApparelSection = () => {
                                 <div className="absolute inset-x-0 bottom-0 p-8 glass-brown translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex flex-col items-center gap-3">
                                     <button
                                         onClick={() => handleAddToCart(product)}
-                                        className={`w-full py-4 text-[10px] uppercase font-bold tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl ${addedId === product.id
-                                            ? "bg-brand-gold text-white"
-                                            : "bg-brand-orange text-white hover:bg-brown-800"}`}
+                                        className={`w-full py-4 text-[10px] uppercase font-black tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl ${addedId === product.id
+                                            ? "bg-brand-gold text-brand-espresso"
+                                            : "bg-brand-orange text-brand-espresso hover:bg-brown-800"}`}
                                     >
                                         {addedId === product.id ? (
                                             <>

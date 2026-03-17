@@ -14,6 +14,7 @@ import {
 import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, query, orderBy, limit, getCountFromServer } from 'firebase/firestore';
+import { allProducts } from '@/data/products';
 
 interface Activity {
     id: string;
@@ -26,11 +27,17 @@ interface Activity {
 
 export default function AdminDashboard() {
     const [isLoading, setIsLoading] = useState(true);
+    
+    // Static data analysis
+    const staticProductCount = allProducts.length;
+    const staticCategories = Array.from(new Set(allProducts.map(p => p.category)));
+    const staticCategoryCount = staticCategories.length;
+
     const [stats, setStats] = useState([
-        { name: 'Total Products', value: '...', icon: Package, color: 'text-blue-600', bg: 'bg-blue-50' },
-        { name: 'Categories', value: '...', icon: Layers, color: 'text-purple-600', bg: 'bg-purple-50' },
-        { name: 'Active Sections', value: '...', icon: Users, color: 'text-green-600', bg: 'bg-green-50' },
-        { name: 'Recent Updates', value: '...', icon: TrendingUp, color: 'text-orange-600', bg: 'bg-orange-50' },
+        { name: 'Total Products', value: '...', icon: Package, color: 'text-blue-600', bg: 'bg-blue-50', href: '/admin/products' },
+        { name: 'Categories', value: '...', icon: Layers, color: 'text-purple-600', bg: 'bg-purple-50', href: '/admin/categories' },
+        { name: 'Active Sections', value: '...', icon: Users, color: 'text-green-600', bg: 'bg-green-50', href: '/admin/sections' },
+        { name: 'Recent Updates', value: '...', icon: TrendingUp, color: 'text-orange-600', bg: 'bg-orange-50', href: '/admin/activity' },
     ]);
     const [recentActivity, setRecentActivity] = useState<Activity[]>([]);
 
@@ -38,16 +45,22 @@ export default function AdminDashboard() {
         const fetchDashboardData = async () => {
             setIsLoading(true);
             try {
-                // Fetch Stats Counts
-                const [productCount, categoryCount, sectionCount] = await Promise.all([
+                // Fetch Stats Counts from Firestore
+                const [productSnap, categorySnap, sectionSnap] = await Promise.all([
                     getCountFromServer(collection(db, 'products')),
                     getCountFromServer(collection(db, 'categories')),
                     getCountFromServer(collection(db, 'sections'))
                 ]);
 
-                // Fetch Recent Activity (Combining recent items from different collections)
-                // In a real app, you might have a dedicated 'activities' collection, 
-                // but here we'll pull the latest from products, categories, sections
+                const firestoreProductCount = productSnap.data().count;
+                const firestoreCategoryCount = categorySnap.data().count;
+                const firestoreSectionCount = sectionSnap.data().count;
+
+                // Total Reconciliation
+                const totalProducts = staticProductCount + firestoreProductCount;
+                const totalCategories = staticCategoryCount + firestoreCategoryCount;
+
+                // Fetch Recent Activity
                 const productsQuery = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(5));
                 const categoriesQuery = query(collection(db, 'categories'), orderBy('createdAt', 'desc'), limit(5));
                 const sectionsQuery = query(collection(db, 'sections'), orderBy('createdAt', 'desc'), limit(5));
@@ -93,7 +106,6 @@ export default function AdminDashboard() {
                     });
                 });
 
-                // Sort and limit combined activities
                 const sortedActivities = activities
                     .sort((a, b) => b.timestamp - a.timestamp)
                     .slice(0, 5);
@@ -101,10 +113,10 @@ export default function AdminDashboard() {
                 setRecentActivity(sortedActivities);
 
                 setStats([
-                    { name: 'Total Products', value: `${productCount.data().count}`, icon: Package, color: 'text-blue-600', bg: 'bg-blue-50' },
-                    { name: 'Categories', value: `${categoryCount.data().count}`, icon: Layers, color: 'text-purple-600', bg: 'bg-purple-50' },
-                    { name: 'Active Sections', value: `${sectionCount.data().count}`, icon: Users, color: 'text-green-600', bg: 'bg-green-50' },
-                    { name: 'Recent Updates', value: `${sortedActivities.length}`, icon: TrendingUp, color: 'text-orange-600', bg: 'bg-orange-50' },
+                    { name: 'Total Products', value: `${totalProducts}`, icon: Package, color: 'text-blue-600', bg: 'bg-blue-50', href: '/admin/products' },
+                    { name: 'Categories', value: `${totalCategories}`, icon: Layers, color: 'text-purple-600', bg: 'bg-purple-50', href: '/admin/categories' },
+                    { name: 'Active Sections', value: `${firestoreSectionCount}`, icon: Users, color: 'text-green-600', bg: 'bg-green-50', href: '/admin/sections' },
+                    { name: 'Recent Updates', value: `${sortedActivities.length}`, icon: TrendingUp, color: 'text-orange-600', bg: 'bg-orange-50', href: '/admin/activity' },
                 ]);
 
             } catch (error) {
@@ -115,7 +127,7 @@ export default function AdminDashboard() {
         };
 
         fetchDashboardData();
-    }, []);
+    }, [staticProductCount, staticCategoryCount]);
 
     const formatTime = (timestamp: any) => {
         if (!timestamp) return 'Just now';
@@ -149,17 +161,21 @@ export default function AdminDashboard() {
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {stats.map((stat) => (
-                    <div key={stat.name} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <Link 
+                        key={stat.name} 
+                        href={stat.href}
+                        className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-100 transition-all group"
+                    >
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">{stat.name}</p>
+                                <p className="text-sm font-medium text-gray-500 group-hover:text-blue-600 transition-colors">{stat.name}</p>
                                 <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
                             </div>
-                            <div className={`${stat.bg} p-3 rounded-xl`}>
+                            <div className={`${stat.bg} p-3 rounded-xl group-hover:scale-110 transition-transform`}>
                                 <stat.icon className={stat.color} size={24} />
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
 

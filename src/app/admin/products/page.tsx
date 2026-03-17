@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
+import { allProducts } from '@/data/products';
 import Link from 'next/link';
 
 interface Product {
@@ -24,7 +25,8 @@ interface Product {
     category: string;
     img: string;
     price?: string;
-    createdAt: any;
+    createdAt?: any;
+    isStatic?: boolean;
 }
 
 export default function ProductsPage() {
@@ -51,13 +53,25 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
         setIsLoading(true);
         try {
+            // Fetch dynamic products from Firestore
             const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
             const querySnapshot = await getDocs(q);
-            const items: Product[] = [];
+            const firestoreItems: Product[] = [];
             querySnapshot.forEach((doc) => {
-                items.push({ id: doc.id, ...doc.data() } as Product);
+                firestoreItems.push({ id: doc.id, ...doc.data() } as Product);
             });
-            setProducts(items);
+
+            // Map static products to our local interface
+            const staticItems: Product[] = allProducts.map(p => ({
+                id: p.id,
+                title: p.title,
+                category: p.category,
+                img: p.img,
+                isStatic: true
+            }));
+
+            // Combine them
+            setProducts([...firestoreItems, ...staticItems]);
         } catch (error) {
             console.error('Error fetching products:', error);
         } finally {
@@ -171,27 +185,33 @@ export default function ProductsPage() {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="flex items-center text-green-600 text-xs font-bold">
-                                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></div>
-                                                Active
+                                            <span className={`flex items-center text-xs font-bold ${product.isStatic ? 'text-gray-400' : 'text-green-600'}`}>
+                                                <div className={`w-1.5 h-1.5 rounded-full mr-2 ${product.isStatic ? 'bg-gray-300' : 'bg-green-500'}`}></div>
+                                                {product.isStatic ? 'ReadOnly' : 'Active'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end space-x-2 relative action-menu-container">
-                                                <Link
-                                                    href={`/admin/products/edit/${product.id}`}
-                                                    className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all md:opacity-0 group-hover:opacity-100"
-                                                    title="Quick Edit"
-                                                >
-                                                    <Edit2 size={18} />
-                                                </Link>
-                                                <button
-                                                    onClick={() => handleDelete(product.id)}
-                                                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all md:opacity-0 group-hover:opacity-100"
-                                                    title="Delete"
-                                                >
-                                                    <Trash2 size={18} />
-                                                </button>
+                                                {!product.isStatic ? (
+                                                    <>
+                                                        <Link
+                                                            href={`/admin/products/edit/${product.id}`}
+                                                            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all md:opacity-0 group-hover:opacity-100"
+                                                            title="Quick Edit"
+                                                        >
+                                                            <Edit2 size={18} />
+                                                        </Link>
+                                                        <button
+                                                            onClick={() => handleDelete(product.id)}
+                                                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all md:opacity-0 group-hover:opacity-100"
+                                                            title="Delete"
+                                                        >
+                                                            <Trash2 size={18} />
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <div className="p-2 text-gray-300 italic text-xs">Static Content</div>
+                                                )}
                                                 <div className="relative">
                                                     <button 
                                                         onClick={() => setActiveMenuId(activeMenuId === product.id ? null : product.id)}
@@ -203,20 +223,22 @@ export default function ProductsPage() {
                                                     {activeMenuId === product.id && (
                                                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                                                             <Link 
-                                                                href={`/products/${product.id}`}
+                                                                href={product.isStatic ? `/products/${product.id}` : `/products/${product.id}`}
                                                                 target="_blank"
                                                                 className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                                                             >
                                                                 <ExternalLink size={16} className="mr-3 text-gray-400" />
                                                                 View on Site
                                                             </Link>
-                                                            <Link 
-                                                                href={`/admin/products/edit/${product.id}`}
-                                                                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                                                            >
-                                                                <Edit2 size={16} className="mr-3 text-gray-400" />
-                                                                Edit Details
-                                                            </Link>
+                                                            {!product.isStatic && (
+                                                                <Link 
+                                                                    href={`/admin/products/edit/${product.id}`}
+                                                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                                                >
+                                                                    <Edit2 size={16} className="mr-3 text-gray-400" />
+                                                                    Edit Details
+                                                                </Link>
+                                                            )}
                                                             <button 
                                                                 onClick={() => copyToClipboard(product.id)}
                                                                 className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
@@ -224,14 +246,18 @@ export default function ProductsPage() {
                                                                 <AlertCircle size={16} className="mr-3 text-gray-400" />
                                                                 Copy Product ID
                                                             </button>
-                                                            <div className="h-px bg-gray-100 my-1"></div>
-                                                            <button 
-                                                                onClick={() => handleDelete(product.id)}
-                                                                className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium"
-                                                            >
-                                                                <Trash2 size={16} className="mr-3 text-red-400" />
-                                                                Delete Product
-                                                            </button>
+                                                            {!product.isStatic && (
+                                                                <>
+                                                                    <div className="h-px bg-gray-100 my-1"></div>
+                                                                    <button 
+                                                                        onClick={() => handleDelete(product.id)}
+                                                                        className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium"
+                                                                    >
+                                                                        <Trash2 size={16} className="mr-3 text-red-400" />
+                                                                        Delete Product
+                                                                    </button>
+                                                                </>
+                                                            )}
                                                         </div>
                                                     )}
                                                 </div>

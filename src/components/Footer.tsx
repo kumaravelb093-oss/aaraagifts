@@ -61,7 +61,7 @@ const Footer = () => {
                         <ul className="space-y-4 text-xs text-brand-espresso/70 font-bold">
                             <li className="flex gap-3"><MapPin className="w-4 h-4 text-brand-espresso flex-shrink-0" /> South Extension, Block C, New Delhi</li>
                             <li className="flex gap-3"><Phone className="w-4 h-4 text-brand-espresso flex-shrink-0" /> +91 97112 00000</li>
-                            <li className="flex gap-3"><Mail className="w-4 h-4 text-brand-espresso flex-shrink-0" /> hello@aaragifts.com</li>
+                            <li className="flex gap-3"><Mail className="w-4 h-4 text-brand-espresso flex-shrink-0" /> aaraagiftshop@gmail.com</li>
                         </ul>
                     </div>
                 </div>
